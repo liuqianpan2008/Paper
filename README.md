@@ -27,6 +27,10 @@ npm install#推荐使用cnpm install
     }
 
 ```
+最后使用运行
+```
+ npm run serve #npm>=8.1
+```
 
 ### 项目介绍
  用户登录&注册
