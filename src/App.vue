@@ -4,10 +4,19 @@
   <n-space vertical size="large">
     <n-layout>
       <n-layout-header embedded> <Navigation /> </n-layout-header>
-      <n-layout-content class="main" content-style="  display: flex; justify-content: center;align-items: center;flex-direction: column">
+      <n-layout-content class="main" >
           <router-view></router-view>
       </n-layout-content>
-      <n-layout-footer embedded><p style="text-align: center;">Paper0.0.1 · Made by 枫叶秋林</p></n-layout-footer>
+      
+        <n-layout-footer embedded>
+          <n-tooltip trigger="hover">
+          <template #trigger>
+          <p style="text-align: center;">Paper0.0.1 · Made by 枫叶秋林</p>
+          </template>
+            催更？不可能！
+          </n-tooltip>
+
+        </n-layout-footer>
     </n-layout>
   </n-space>
   </n-message-provider>
@@ -43,10 +52,8 @@ export default defineComponent({
 <style>
 
 .main{
-   background-image: linear-gradient(to right bottom, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+  background-image: linear-gradient(to right bottom, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
   padding: 10px;
   height: 1000px;
-  
-
 }
 </style>

@@ -3,7 +3,7 @@
             <n-space justify="end">
                 <n-button @click="logo">登录</n-button>
                 <n-button  @click="Register">注册</n-button>
-                <n-button>GItHob!</n-button>
+                <n-button @click="GitHob">GItHob!</n-button>
             </n-space>
       </div>
 </template>
@@ -16,10 +16,13 @@ export default defineComponent({
       setup() {
             return{
                   logo () {
-                        location.href="/#/login"
+                        location.href="./#/login"
                   },
                   Register(){
-                        location.href="/#/register"
+                        location.href="./#/register"
+                  },
+                  GitHob(){
+                        location.href="https://github.com/liuqianpan2008/Paper"
                   }
             }
       },

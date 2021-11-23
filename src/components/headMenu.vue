@@ -45,7 +45,7 @@ export default defineComponent({
                          key: 'Paper-feeding',
                          children: [{
                             label: ()=>h("a",{
-                            href: '#/sendpaper/PaperCard',
+                            href: './#/sendpaper/PaperCard',
                             target: '_Self',
                             rel: 'noopenner noreferrer'
                             },'扔纸'),
@@ -54,7 +54,7 @@ export default defineComponent({
                         },{
                             ///PaperCut
                            label: ()=>h("a",{
-                            href: '#/PaperCut/CollectCards',
+                            href: './#/PaperCut/CollectCards',
                             target: '_Self',
                             rel: 'noopenner noreferrer'
                             },'捡纸'),

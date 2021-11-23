@@ -42,11 +42,11 @@ export default ({
                             // Globat.number.value=response.data.number
                             //储存到本地
                             localStorage.setItem('user',Globat.User.value);
-                            localStorage.setItem('sex',Globat.sex.value );
+                            localStorage.setItem('sex',Globat.sex.value);
                             localStorage.setItem('kay',response.data.kay);
                             localStorage.setItem('loged',"false");
                             message.success(info);
-                            location.href='#/';   
+                            location.href='./#/';   
                         }else{
                             message.error(info);
                         }
@@ -89,9 +89,9 @@ export default ({
 </script>
 
 <style>
-#login {
+/* #login {
   max-width: 500px;
-}
+} */
 
 
 </style>

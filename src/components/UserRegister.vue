@@ -123,7 +123,7 @@ export default defineComponent({
 })
 </script>
 <style>
-#register{
+/* #register{
       max-width: 500px;
-}
+} */
 </style>

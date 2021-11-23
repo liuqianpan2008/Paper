@@ -1,15 +1,14 @@
 <template>
-    <n-grid  :cols="3">
+    <n-grid  :cols="3" item-responsive responsive="screen">
     <n-gi>
       <div id="logo" class=".center">
           <n-avatar style=" border-left-style: 20px;" round :size="70" src="https://s3.bmp.ovh/imgs/2021/11/b398bb54cd64c915.png"/>
       </div>
     </n-gi>
-    <n-gi class="center">
+    <n-gi class="center" span="0 m:1 l:1">
         <HM />
     </n-gi>
-    
-    <n-gi class="center Reft">
+    <n-gi class="center Reft" span="2 m:1 l:1">
       <div v-show="Islogin">
         <HLRG  />
       </div>

@@ -1,11 +1,13 @@
 <template>
-    <n-layout has-sider >
+    <n-layout has-sider  content-style="height: 980px;">
 
         <n-layout-sider
-            bordered
-            collapse-mode="width"
-            :collapsed-width="64"
-            :native-scrollbar="false"
+        collapse-mode="width"
+        :collapsed-width="64"
+        :width="168"
+        :native-scrollbar="true"
+        show-trigger="arrow-circle"
+        bordered
         >
         <n-menu
           :collapsed-width="64"
@@ -13,7 +15,7 @@
           :options="menuseed"
         />
       </n-layout-sider>
-        <n-layout  :native-scrollbar="false" id="you">
+        <n-layout  :native-scrollbar="false">
           <router-view></router-view>
           <!-- <PaperCard /> -->
       </n-layout>
@@ -34,7 +36,7 @@ const menuseed = [
   {
     ///sendpaper/MyPaperCard
     label: ()=>h("a",{
-      href: '#/sendpaper/PaperCard',
+      href: './#/sendpaper/PaperCard',
       target: '_Self',
       rel: 'noopenner noreferrer'
     },
@@ -43,7 +45,7 @@ const menuseed = [
     icon: renderIcon(BookIcon)
   },{
     label:()=>h("a",{
-      href: '#/sendpaper/MyPaperCard',
+      href: './#/sendpaper/MyPaperCard',
       target: '_Self',
       rel: 'noopenner noreferrer'
     },
@@ -63,10 +65,10 @@ export default defineComponent({
 </script>
 
 <style>
-.n-card {
+/* .n-card {
   min-width: 500px;
 }
 #you{
   min-width: 500px;
-}
+} */
 </style>
