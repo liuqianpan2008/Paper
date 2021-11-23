@@ -19,6 +19,10 @@
                     </n-radio-group>
                     
                 </n-form-item>
+                <n-form-item label="验证码" path="Code">
+                    <n-input  placeholder="输入验证码" v-model:value="registerV.Code"/>
+                </n-form-item>
+                    <PicCode :width="200" :height="50" v-model:Code="Code" />
                  <n-form-item>
                     <n-button @click="registerBtn" attr-type="button">注册</n-button>
                 </n-form-item>
@@ -33,10 +37,12 @@ import { FormItemRule } from 'naive-ui';
 import { defineComponent,ref } from 'vue'
 import { useMessage } from 'naive-ui';
 import axios from 'axios';
-
+import PicCode from "@/components/PicCode/PicCode.vue";
 export default defineComponent({
+    components: { PicCode },
     setup() {
-     const registerV=ref({user:'',passworld:'',passworld1:"",sex:""})
+     const registerV=ref({user:'',passworld:'',passworld1:"",sex:"",Code:""})
+    const Code = ref(1);
     const registerRef=ref();
     const message = useMessage()
     const registerBtn=()=>{
@@ -69,7 +75,7 @@ export default defineComponent({
 
 
         return{
-            registerV,registerBtn,registerRef,
+            registerV,registerBtn,registerRef,Code,
             rules:{
                 user:{
                     required:true,
@@ -114,6 +120,18 @@ export default defineComponent({
                     required: true,
                     trigger: 'change',
                     message: '请选择性别'
+                },
+                Code:{
+                    required:true,
+                    trigger: ['input', 'blur'],
+                    validator:(rule: FormItemRule, value: any)=>{
+                        if(value==""){
+                            return new Error('请输入验证码')
+                        }
+                        if(value!=Code.value){
+                            return new Error('验证码不正确')
+                        }
+                    }
                 }
             },
         }

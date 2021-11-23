@@ -7,6 +7,10 @@
                 <n-form-item label="密码" path="passworld" >
                     <n-input type="password" show-password-on="mousedown" placeholder="请输入密码" v-model:value="loginV.passworld" />
                 </n-form-item>
+                <n-form-item label="验证码" path="Code">
+                    <n-input  placeholder="输入验证码" v-model:value="loginV.Code"/>
+                </n-form-item>
+                <PicCode :width="200" :height="50" v-model:Code="Code" />
                  <n-form-item>
                         <n-button @click="login" attr-type="button">登录</n-button>
                 </n-form-item>
@@ -18,13 +22,14 @@ import axios from 'axios';
 import {ref} from 'vue';
 import Globat from '../Global.vue';
 import { FormItemRule, useMessage } from 'naive-ui';
-// import Vcode from "vue3-puzzle-vcode";
+import PicCode from "@/components/PicCode/PicCode.vue";
 export default ({
+    components: { PicCode },
     setup() {
-        // components:{Vcode}
-        const loginV=ref({user:'',passworld:''})
+        const loginV=ref({user:'',passworld:'',Code:''})
         const loginRef=ref();
         const message = useMessage()
+        const Code = ref(1);
         const login=()=>{
             loginRef.value.validate(async(errors: any)=>{
                 if (!errors) {
@@ -58,7 +63,7 @@ export default ({
         }
 
         return{
-            loginV,loginRef,login,useMessage,
+            loginV,loginRef,login,useMessage,Code,
             rules:{
                 user:{
                     required:true,
@@ -78,6 +83,18 @@ export default ({
                     validator:(rule: FormItemRule, value: any)=>{
                         if(value==""){
                             return new Error('请输入密码')
+                        }
+                    }
+                },
+                Code:{
+                    required:true,
+                    trigger: ['input', 'blur'],
+                    validator:(rule: FormItemRule, value: any)=>{
+                        if(value==""){
+                            return new Error('请输入验证码')
+                        }
+                        if(value!=Code.value){
+                            return new Error('验证码不正确')
                         }
                     }
                 }

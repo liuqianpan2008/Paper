@@ -1,7 +1,7 @@
 <template>
 <div class="juzhong">
     <n-space vertical>
-            <n-gradient-text :size="74" gradient="linear-gradient(90deg, red 0%, green 50%, blue 100%)"> 开始你的纸片吧 </n-gradient-text>
+            <n-gradient-text :size="50" gradient="linear-gradient(90deg, red 0%, green 50%, blue 100%)"> 开始你的纸片吧 </n-gradient-text>
             <n-space justify="center">
                 <n-button size="large" type="info" @click="Pick">捡纸片</n-button>
                 <n-button size="large" type="info" @click="Throw">扔纸片</n-button>

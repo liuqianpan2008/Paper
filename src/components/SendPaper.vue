@@ -26,9 +26,8 @@
 import { h, defineComponent } from 'vue'
 import { NIcon } from 'naive-ui'
 // import PaperCard from './PaperCard.vue'
-import {
-  BookOutline as BookIcon,
-} from '@vicons/ionicons5'
+import {BookOutline as BookIcon,} from '@vicons/ionicons5'
+import {AccountCircleSharp} from '@vicons/material'
 function renderIcon (icon) {
   return () => h(NIcon, null, { default: () => h(icon) })
 }
@@ -51,7 +50,7 @@ const menuseed = [
     },
     '我发送的纸片'),
     key: 'a-wild-sheep-chase',
-    icon: renderIcon(BookIcon)
+    icon: renderIcon(AccountCircleSharp)
   }
 ]
 export default defineComponent({

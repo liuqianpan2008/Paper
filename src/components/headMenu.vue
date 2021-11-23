@@ -30,14 +30,6 @@ export default defineComponent({
                 key: 'go-back-home',
                 icon: renderIcon(HomeIcon)
             },{
-                label:()=>h("a",{
-                    href: 'https://www.fengyeqiulin.cn',
-                    target: '_blank',
-                    rel: 'noopenner noreferrer'
-                },'博客'),
-                key: 'go-Blog',
-                icon: renderIcon(BlogIcon)
-            },{
                 label: '纸',
                  children: [{
                          type: 'group',
@@ -63,7 +55,15 @@ export default defineComponent({
                      }],
                 key: 'Paper',
                 icon: renderIcon(Paperlcon)
-            }
+            },{
+                label:()=>h("a",{
+                    href: 'https://www.fengyeqiulin.cn',
+                    target: '_blank',
+                    rel: 'noopenner noreferrer'
+                },'博客'),
+                key: 'go-Blog',
+                icon: renderIcon(BlogIcon)
+            },
         ]
      return {
       activeKey: ref(null),menuOptions
