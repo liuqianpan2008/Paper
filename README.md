@@ -3,35 +3,10 @@
 该项目灵感来源于网络流行发广场投放纸片相亲
 ## vue3+Naive UI
 ## 项目搭建
-
-克隆本项目
-```
-git clone https://github.com/liuqianpan2008/Paper
-```
-后请输入一下指令来更新本项目支持库
-```
-npm install#推荐使用cnpm install
-```
-然后修改```vue.config```下面的``` devServer>proxy>api>target ```地址对应相应的php后端地址.
-```
-    devServer: {
-        proxy: {
-            '/api': {
-                target: 'http://127.0.0.1/houduan',//后端接口地址
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api': ''//重写,
-                }
-            }
-        }
-    }
-
-```
-最后使用运行
-```
- npm run serve #npm>=8.1
-```
-
+1.下载最新<a href="https://github.com/liuqianpan2008/Paper/releases">构建</a><br>
+2.下载bd.sql并导入mysql数据库<br>
+3.将构建文件上传到服务器<br>
+4.打开修改aip目录下连接数据库信息<br>
 ### 项目介绍
  用户登录&注册
     进行登录和注册配置，注册默认最高密码安全等级
