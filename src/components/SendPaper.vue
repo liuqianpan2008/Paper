@@ -1,40 +1,37 @@
 <template>
-    <n-layout has-sider  content-style="height: 980px;">
+  <n-layout has-sider
+            content-style="height: 980px;">
 
-        <n-layout-sider
-        collapse-mode="width"
-        :collapsed-width="64"
-        :width="168"
-        :native-scrollbar="true"
-        show-trigger="arrow-circle"
-        bordered
-        >
-        <n-menu
-          :collapsed-width="64"
-          :collapsed-icon-size="22"
-          :options="menuseed"
-        />
-      </n-layout-sider>
-        <n-layout  :native-scrollbar="false">
-          <router-view></router-view>
-          <!-- <PaperCard /> -->
-      </n-layout>
+    <n-layout-sider collapse-mode="width"
+                    :collapsed-width="64"
+                    :width="168"
+                    :native-scrollbar="true"
+                    show-trigger="arrow-circle"
+                    bordered>
+      <n-menu :collapsed-width="64"
+              :collapsed-icon-size="22"
+              :options="menuseed" />
+    </n-layout-sider>
+    <n-layout :native-scrollbar="false">
+      <router-view></router-view>
+      <!-- <PaperCard /> -->
     </n-layout>
+  </n-layout>
 </template>
 
 <script>
 import { h, defineComponent } from 'vue'
 import { NIcon } from 'naive-ui'
 // import PaperCard from './PaperCard.vue'
-import {BookOutline as BookIcon,} from '@vicons/ionicons5'
-import {AccountCircleSharp} from '@vicons/material'
+import { BookOutline as BookIcon, } from '@vicons/ionicons5'
+import { AccountCircleSharp } from '@vicons/material'
 function renderIcon (icon) {
   return () => h(NIcon, null, { default: () => h(icon) })
 }
 const menuseed = [
   {
     ///sendpaper/MyPaperCard
-    label: ()=>h("a",{
+    label: () => h("a", {
       href: './#/sendpaper/PaperCard',
       target: '_Self',
       rel: 'noopenner noreferrer'
@@ -42,24 +39,24 @@ const menuseed = [
       '发送纸片'),
     key: 'hear-the-wind-sing',
     icon: renderIcon(BookIcon)
-  },{
-    label:()=>h("a",{
+  }, {
+    label: () => h("a", {
       href: './#/sendpaper/MyPaperCard',
       target: '_Self',
       rel: 'noopenner noreferrer'
     },
-    '我发送的纸片'),
+      '我发送的纸片'),
     key: 'a-wild-sheep-chase',
     icon: renderIcon(AccountCircleSharp)
   }
 ]
 export default defineComponent({
-    // components:{PaperCard},
-    setup () {
-        return {
-            menuseed
-        }
+  // components:{PaperCard},
+  setup () {
+    return {
+      menuseed
     }
+  }
 })
 </script>
 
