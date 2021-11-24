@@ -1,18 +1,19 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 //引入组件
-import login from "./components/login.vue";
+import login from "./components/login/login.vue";
 import MIAN from "./components/main.vue";
-import UserRegister from "./components/UserRegister.vue";
-import SendPaper from "./components/SendPaper.vue";
-import PaperCard from "./components/PaperCard.vue";
+import UserRegister from "./components/login/UserRegister.vue";
+import SendPaper from "./components/sendpaper/SendPaper.vue";
+import PaperCard from "./components/sendpaper/PaperCard.vue";
 import Global from "./Global.vue";
-import MyPaperCard from "./components/MyPaperCard.vue";
-import PaperCut from "./components/PaperCut.vue";
-import CollectCards from "./components/CollectCards.vue";
-import MyseeCard from "./components/MySeepaperCard.vue";
-import UserSetUp from "./components/UserSetUp.vue";
-import personal from "./components/personal.vue";
-import setpassworld from "./components/setuserpassword.vue";
+import MyPaperCard from "./components/sendpaper/MyPaperCard.vue";
+import PaperCut from "./components/MyseeCard/PaperCut.vue";
+import CollectCards from "./components/MyseeCard/CollectCards.vue";
+import MyseeCard from "./components/MyseeCard/MySeepaperCard.vue";
+import UserSetUp from "./components/UserSetUp/UserSetUp.vue";
+import personal from "./components/UserSetUp/personal.vue";
+import setpassworld from "./components/UserSetUp/setuserpassword.vue";
+import Retrieve from "./components/login/Retrieve.vue";
 import axios from "axios";
 //配置路由
 const router = createRouter({
@@ -24,6 +25,17 @@ const router = createRouter({
       meta: {
         isAuth: true,
       },
+      beforeEnter(to, from, next) {
+        if (Global.User.value == "") {
+          next();
+        } else {
+          alert("你已登录!");
+        }
+      },
+    },
+    {
+      path: "/Retrieve",
+      component: Retrieve,
       beforeEnter(to, from, next) {
         if (Global.User.value == "") {
           next();
@@ -185,7 +197,6 @@ const router = createRouter({
             }
           },
         },
-
       ],
     },
   ],

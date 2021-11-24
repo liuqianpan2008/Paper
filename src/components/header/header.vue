@@ -25,9 +25,9 @@
 
 import GlobalVue from '@/Global.vue';
 import { watch,ref  } from 'vue';
-import HM from './headMenu.vue';
-import HLRG from './head_login_regist_githob.vue'
-import Logined from './logined.vue'
+import HM from '../header/headMenu.vue';
+import HLRG from '../header/head_login_regist_githob.vue'
+import Logined from '../logined.vue'
 
 
 export default ({

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Globat from '../Global.vue'
+import Globat from '../../Global.vue'
 export default {
 
   setup () {

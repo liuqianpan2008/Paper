@@ -31,7 +31,7 @@
 <script lang="ts">
 import axios from 'axios'
 import { defineComponent, ref } from 'vue'
-import Navigation from './components/header.vue'
+import Navigation from './components/header/header.vue'
 import Globat from './Global.vue'
 export default defineComponent({
   name: 'App',
