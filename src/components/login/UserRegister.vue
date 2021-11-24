@@ -1,6 +1,5 @@
 <template>
-  <n-card title="注册"
-          id="register">
+  <n-card title="注册">
     <n-form :show-require-mark="false"
             :model="registerV"
             :rules="rules"
@@ -39,14 +38,26 @@
       </n-form-item>
       <n-form-item label="性别"
                    path="sex">
-
         <n-radio-group v-model:value="registerV.sex"
                        name="nan_nv">
           <n-radio value="男"
                    :checked="1===1">男</n-radio>
           <n-radio value="女">女</n-radio>
         </n-radio-group>
-
+      </n-form-item>
+      <n-form-item label="邮箱"
+                   path="mail">
+        <n-auto-complete v-model:value="registerV.mail"
+                         placeholder="请输入邮箱" />
+        <n-button attr-type="button"
+                  @click="SeedmailCode"
+                  :loading="loading"
+                  :disabled="loading">发送验证码</n-button>
+      </n-form-item>
+      <n-form-item label="邮箱验证码"
+                   path="mailCode">
+        <n-input placeholder="请输入邮箱验证码"
+                 v-model:value="registerV.mailCode" />
       </n-form-item>
       <n-form-item label="验证码"
                    path="Code">
@@ -56,19 +67,20 @@
       <PicCode :width="200"
                :height="50"
                v-model:Code="Code" />
-      <n-form-item>
-        <n-button @click="registerBtn"
-                  attr-type="button">注册</n-button>
-      </n-form-item>
+      <n-space justify="end">
+        <n-form-item>
+          <n-button @click="registerBtn"
+                    attr-type="button">注册</n-button>
+        </n-form-item>
+      </n-space>
     </n-form>
-    <!-- {{JSON.stringify(registerV)}} -->
   </n-card>
 
 </template>
 
 <script lang="ts">
 import { FormItemRule } from 'naive-ui'
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import { useMessage } from 'naive-ui'
 import axios from 'axios'
 import PicCode from '@/components/PicCode/PicCode.vue'
@@ -81,15 +93,19 @@ export default defineComponent({
       passworld1: '',
       sex: '',
       Code: '',
+      mail: '',
+      mailCode: '',
     })
     const Code = ref(1)
     const registerRef = ref()
     const showPopover = ref()
+    const mailCode = ref('hudoihfueafd')
     const pawssworldinfo = ref({
       info: '☹密码不含中文，且位数在3-16位',
       info1: '☹无小写或者大写字母',
       info2: '☹不含有数字',
     })
+
     const message = useMessage()
     const Passworldfocus = () => {
       showPopover.value = true
@@ -97,6 +113,8 @@ export default defineComponent({
     const passwordblur = () => {
       showPopover.value = false
     }
+    const loading = ref(false)
+
     const registerBtn = () => {
       registerRef.value.validate(async (errors: any) => {
         if (!errors) {
@@ -105,6 +123,7 @@ export default defineComponent({
               user: registerV.value.user,
               passworld: registerV.value.passworld,
               sex: registerV.value.sex,
+              mail: registerV.value.mail,
             })
             .then((response) => {
               const info = response.data.info
@@ -127,16 +146,34 @@ export default defineComponent({
         }
       })
     }
-
+    const SeedmailCode = () => {
+      loading.value = true
+      axios
+        .post('api/registerMail.php', {
+          mail: registerV.value.mail,
+        })
+        .then((response) => {
+          const info = response.data.info
+          message.success(info)
+          mailCode.value = response.data.mailCode
+          loading.value = false
+        })
+        .catch(() => {
+          message.error('访问API服务器失败')
+          loading.value = false
+        })
+    }
     return {
       registerV,
       registerBtn,
+      SeedmailCode,
       registerRef,
       Code,
       showPopover,
       Passworldfocus,
       passwordblur,
       pawssworldinfo,
+      loading,
       rules: {
         user: {
           required: true,
@@ -206,13 +243,31 @@ export default defineComponent({
             }
           },
         },
+        mail: {
+          required: true,
+          trigger: ['input', 'blur'],
+          validator: (rule: FormItemRule, value: any) => {
+            if (value == '') {
+              return new Error('请输入邮箱')
+            }
+          },
+        },
+        mailCode: {
+          required: true,
+          trigger: ['input', 'blur'],
+          validator: (rule: FormItemRule, value: any) => {
+            if (value == '') {
+              return new Error('请输入邮箱验证码')
+            }
+            if (mailCode.value != value) {
+              return new Error('邮箱验证码不正确')
+            }
+          },
+        },
       },
     }
   },
 })
 </script>
 <style>
-/* #register{
-      max-width: 500px;
-} */
 </style>
