@@ -31,20 +31,20 @@ function renderIcon (icon) {
 const menuseed = [
   {
     label: () => h("a", {
-      href: './#/sendpaper/PaperCard',
+      href: './#/UserSetUp/personal',
       target: '_Self',
       rel: 'noopenner noreferrer'
     },
-      '发送纸片'),
+      '个人资料'),
     key: 'hear-the-wind-sing',
     icon: renderIcon(BookIcon)
   }, {
     label: () => h("a", {
-      href: './#/sendpaper/MyPaperCard',
+      href: '',
       target: '_Self',
       rel: 'noopenner noreferrer'
     },
-      '我发送的纸片'),
+      '密码安全'),
     key: 'a-wild-sheep-chase',
     icon: renderIcon(AccountCircleSharp)
   }
@@ -60,5 +60,4 @@ export default defineComponent({
 </script>
 
 <style>
-
 </style>
