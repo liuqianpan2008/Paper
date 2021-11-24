@@ -12,6 +12,7 @@ import CollectCards from "./components/CollectCards.vue";
 import MyseeCard from "./components/MySeepaperCard.vue";
 import UserSetUp from "./components/UserSetUp.vue";
 import personal from "./components/personal.vue";
+import setpassworld from "./components/setuserpassword.vue";
 import axios from "axios";
 //配置路由
 const router = createRouter({
@@ -165,6 +166,17 @@ const router = createRouter({
         {
           path: "personal",
           component: personal,
+          beforeEnter(to, from, next) {
+            if (Global.User.value != "") {
+              next();
+            } else {
+              alert("你还没登录呢");
+            }
+          },
+        },
+        {
+          path: "SetPassword",
+          component: setpassworld,
           beforeEnter(to, from, next) {
             if (Global.User.value != "") {
               next();

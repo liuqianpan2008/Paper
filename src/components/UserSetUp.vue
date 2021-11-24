@@ -40,7 +40,7 @@ const menuseed = [
     icon: renderIcon(BookIcon)
   }, {
     label: () => h("a", {
-      href: '',
+      href: './#/UserSetUp/SetPassword',
       target: '_Self',
       rel: 'noopenner noreferrer'
     },
