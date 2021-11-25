@@ -61,13 +61,10 @@ export default {
             })
             .then((response) => {
               const info = response.data.info
-              console.log(response.data)
               if (response.data.cod == '103') {
                 Globat.User.value = loginV.value.user
                 Globat.sex.value = response.data.sex
                 Globat.loged.value = false
-                // Globat.number.value=response.data.number
-                //储存到本地
                 localStorage.setItem('user', Globat.User.value)
                 localStorage.setItem('sex', Globat.sex.value)
                 localStorage.setItem('kay', response.data.kay)
@@ -85,7 +82,7 @@ export default {
       })
     }
     const Retrieve = () => {
-        location.href = './#/Retrieve'
+      location.href = './#/Retrieve'
     }
 
     return {

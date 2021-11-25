@@ -68,6 +68,24 @@ const router = createRouter({
           component: PaperCard,
           beforeEnter(to, form, next) {
             if (Global.User.value != "") {
+              axios
+                .post("api/UseFrequency.php", {
+                  user: Global.User.value,
+                  kay: localStorage.getItem("kay"),
+                })
+                .then((response) => {
+                  const cod = response.data.cod;
+                  const info = response.data.info;
+                  if (cod == "103") {
+                    Global.SendCard.value = response.data.send;
+                    console.log(Global.SendCard.value);
+                  } else {
+                    alert(info);
+                  }
+                })
+                .catch((response) => {
+                  alert("API获取失败");
+                });
               next();
             } else {
               alert("该功能登录后使用，请去登录！");
@@ -89,7 +107,6 @@ const router = createRouter({
                 .then((response) => {
                   const cod = response.data.cod;
                   const info = response.data.info;
-                  console.log(response.data);
                   if (cod == "103") {
                     Global.card.value = response.data.card;
                     if (Global.Pagenumber.value == "") {
@@ -100,7 +117,7 @@ const router = createRouter({
                   }
                 })
                 .catch((response) => {
-                  console.log("API获取失败");
+                  alert("API获取失败");
                 });
               next();
             } else {
@@ -123,6 +140,23 @@ const router = createRouter({
           component: CollectCards,
           beforeEnter(to, form, next) {
             if (Global.User.value != "") {
+              axios
+                .post("api/UseFrequency.php", {
+                  user: Global.User.value,
+                  kay: localStorage.getItem("kay"),
+                })
+                .then((response) => {
+                  const cod = response.data.cod;
+                  const info = response.data.info;
+                  if (cod == "103") {
+                    Global.AcceptCard.value = response.data.accept;
+                  } else {
+                    alert(info);
+                  }
+                })
+                .catch((response) => {
+                  alert("API获取失败");
+                });
               next();
             } else {
               alert("该功能登录后使用，请去登录！");

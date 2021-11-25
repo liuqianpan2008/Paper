@@ -48,12 +48,10 @@ export default defineComponent({
       })
     if (localStorage.getItem('user') != null) {
       Globat.User.value = localStorage.getItem('user')
-      console.log(Globat.sex.value)
     }
 
     if (localStorage.getItem('sex') != null) {
       Globat.sex.value = localStorage.getItem('sex')
-      console.log(Globat.sex.value)
     }
 
     if (localStorage.getItem('loged') == 'false') {

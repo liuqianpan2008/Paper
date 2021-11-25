@@ -1,4 +1,8 @@
 <template>
+  <n-space justify="center">
+    <n-gradient-text :size="24"
+                     type="info"> 今天还能发{{sendInfo}}次 </n-gradient-text>
+  </n-space>
   <n-card title="投纸">
     <n-form :show-require-mark="false"
             :model="paperCard"
@@ -40,10 +44,11 @@
 
 
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import axios from 'axios';
 import { useMessage } from 'naive-ui';
 import PicCode from "@/components/PicCode/PicCode.vue";
+import GlobalVue from '@/Global.vue';
 export default {
   components: { PicCode },
   setup () {
@@ -55,6 +60,10 @@ export default {
     const Code = ref(1);
     const paperCardRef = ref()
     const message = useMessage()
+    const sendInfo = ref(0)
+    watch(() => GlobalVue.SendCard.value, (n, o) => {
+      sendInfo.value = n
+    })
     const send = () => {
       paperCardRef.value.validate(async (errors) => {
         if (!errors) {
@@ -65,10 +74,10 @@ export default {
             kay: localStorage.getItem("kay")
           }).then((response) => {
             const info = response.data.info;
-            console.log(response.data);
             if (response.data.cod == "102") {
               message.success(info);
               location.href = './#/sendpaper/MyPaperCard';
+
             } else {
               message.error(info);
             }
@@ -78,8 +87,10 @@ export default {
         }
       })
     }
+
+
     return {
-      paperCard, paperCardRef, send, Code,
+      paperCard, paperCardRef, send, Code, sendInfo,
       rules: {
         title: {
           required: true,

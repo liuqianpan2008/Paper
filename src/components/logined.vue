@@ -1,7 +1,8 @@
 <template>
   <n-space justify="end">
     <!-- <n-gradient-text type="info"> 欢迎{{user}}{{sex=="男"?"先生":"女生"}}登录！ </n-gradient-text> -->
-    <n-button type="info" @click="UserSetUp">设置</n-button>
+    <n-button type="info"
+              @click="UserSetUp">设置</n-button>
     <n-button @click="cancellation"
               type="error">注销</n-button>
   </n-space>
@@ -31,11 +32,11 @@ export default defineComponent({
       Globat.sex.value = "";
       location.href = "#/";
     }
-    const UserSetUp=()=>{
+    const UserSetUp = () => {
       location.href = "./#/UserSetUp/personal";
     }
     return {
-      user, sex, cancellation,UserSetUp
+      user, sex, cancellation, UserSetUp
     }
   },
 })
