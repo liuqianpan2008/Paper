@@ -7,8 +7,7 @@
 1.下载最新<a href="https://github.com/liuqianpan2008/Paper/releases">构建</a><br>
 2.下载bd.sql并导入mysql数据库<br>
 3.将构建文件上传到服务器<br>
-4.打开并修改aip目录下连接数据库信息<br>
-5.修改aip>mailer.php目录下的邮箱连接信息
+4.打开并修改aip>config.php目录下连接数据库信息<br>
 ### 项目介绍
  用户登录&注册
     进行登录和注册配置
