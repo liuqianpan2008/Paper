@@ -30,8 +30,8 @@
  ![image](https://user-images.githubusercontent.com/80571808/142711911-1d7865bc-cb5e-4452-bce5-7ed9dfccb5cf.png)
  查看自己投放的纸片，以及这张纸片是谁发送的！
 
-### 对接后端
-1.将houduan文件内的上传到网站，并修改项目设置内容！
+### 更新日志
 
-2.将houduan中的db.sql后缀文件导入到Mysql服务器内.
+2021年11月25日 应该能可以用了？
+
 
