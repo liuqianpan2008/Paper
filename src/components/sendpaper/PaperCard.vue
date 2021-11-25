@@ -48,8 +48,9 @@ import { ref, watch } from 'vue';
 import axios from 'axios';
 import { useMessage } from 'naive-ui';
 import PicCode from "@/components/PicCode/PicCode.vue";
-import GlobalVue from '@/Global.vue';
+const sendInfo = ref(0)
 export default {
+  sendInfo,
   components: { PicCode },
   setup () {
     const paperCard = ref({
@@ -60,10 +61,6 @@ export default {
     const Code = ref(1);
     const paperCardRef = ref()
     const message = useMessage()
-    const sendInfo = ref(0)
-    watch(() => GlobalVue.SendCard.value, (n, o) => {
-      sendInfo.value = n
-    })
     const send = () => {
       paperCardRef.value.validate(async (errors) => {
         if (!errors) {

@@ -77,8 +77,7 @@ const router = createRouter({
                   const cod = response.data.cod;
                   const info = response.data.info;
                   if (cod == "103") {
-                    Global.SendCard.value = response.data.send;
-                    console.log(Global.SendCard.value);
+                    PaperCard.sendInfo.value = response.data.send;
                   } else {
                     alert(info);
                   }
@@ -149,7 +148,7 @@ const router = createRouter({
                   const cod = response.data.cod;
                   const info = response.data.info;
                   if (cod == "103") {
-                    Global.AcceptCard.value = response.data.accept;
+                    CollectCards.AcceptCard.value = response.data.accept;
                   } else {
                     alert(info);
                   }

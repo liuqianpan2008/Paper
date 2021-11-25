@@ -31,35 +31,37 @@
 
 <script>
 import { ref, watch } from 'vue';
-import GlobalVue from '@/Global.vue';
 import axios from 'axios';
 import { useMessage } from 'naive-ui';
+const AcceptCard = ref(0)
 export default {
+  AcceptCard,
   setup () {
     const Scard = ref({ title: "" })
-    const AcceptCard = ref()
     const message = useMessage()
-    watch(() => GlobalVue.AcceptCard.value, (n, o) => {
-      AcceptCard.value = n;
-    })
     return {
       Scard, AcceptCard,
       SeeCard: () => {
-        axios.post("api/SeeCard.php", {
-          user: localStorage.getItem("user"),
-          kay: localStorage.getItem("kay")
-        }).then(response => {
-          const cod = response.data.cod;
-          const info = response.data.info;
-          if (cod == "103") {
-            Scard.value = response.data.card;
-          } else {
-            message.error(info);
-          }
+        if (AcceptCard.value != 0) {
 
-        }).catch(e => {
-          console.log(e);
-        })
+          axios.post("api/SeeCard.php", {
+            user: localStorage.getItem("user"),
+            kay: localStorage.getItem("kay")
+          }).then(response => {
+            const cod = response.data.cod;
+            const info = response.data.info;
+            if (cod == "103") {
+              Scard.value = response.data.card;
+              AcceptCard.value--
+            } else {
+              message.error(info);
+            }
+
+          }).catch(e => {
+            console.log(e);
+          })
+        }
+
       }
     }
   }
