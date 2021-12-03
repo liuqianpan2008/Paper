@@ -29,10 +29,12 @@
 </template>
 
 <script lang="ts">
+import { WindowOverlay } from '@vicons/carbon'
 import axios from 'axios'
 import { defineComponent, ref } from 'vue'
 import Navigation from './components/header/header.vue'
 import Globat from './Global.vue'
+
 export default defineComponent({
   name: 'App',
   components: { Navigation },
@@ -46,16 +48,32 @@ export default defineComponent({
       .catch((e) => {
         t.value = e.data.hitokoto
       })
-    if (localStorage.getItem('user') != null) {
-      Globat.User.value = localStorage.getItem('user')
-    }
 
-    if (localStorage.getItem('sex') != null) {
-      Globat.sex.value = localStorage.getItem('sex')
-    }
-
-    if (localStorage.getItem('loged') == 'false') {
-      Globat.loged.value = false
+    axios({
+      url: 'http://127.0.0.1:8888/users/isLogin',
+      headers: {
+        satoken: localStorage.getItem('Token'),
+      },
+    }).then((e) => {
+      const info = e.data
+      //IsLog
+      Globat.IsLog.value = info.date
+      console.log(Globat.IsLog.value)
+    })
+    // window.οnbefοreunlοad=function(){}
+    window.onbeforeunload = (e) => {
+      //刷新时弹出提示
+      axios({
+        url: 'http://127.0.0.1:8888/users/isLogin',
+        headers: {
+          satoken: localStorage.getItem('Token'),
+        },
+      }).then((e) => {
+        const info = e.data
+        //IsLog
+        Globat.IsLog.value = info.date
+        console.log(Globat.IsLog.value)
+      })
     }
     return { t }
   },

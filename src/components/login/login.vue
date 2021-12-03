@@ -17,14 +17,12 @@
                  placeholder="请输入密码"
                  v-model:value="loginV.passworld" />
       </n-form-item>
-      <n-form-item label="验证码"
-                   path="Code">
-        <n-input placeholder="输入验证码"
-                 v-model:value="loginV.Code" />
-      </n-form-item>
-      <PicCode :width="200"
-               :height="50"
-               v-model:Code="Code" />
+      <Verify @success="success"
+              mode="pop"
+              captchaType="clickWord"
+              :imgSize="{width:'400px',height:'200px'}"
+              ref="verify">
+      </Verify>
       <n-space justify="end">
         <n-form-item>
           <n-space>
@@ -41,56 +39,61 @@
 <script lang="ts">
 import axios from 'axios'
 import { ref } from 'vue'
-import Globat from '../../Global.vue'
 import { FormItemRule, useMessage } from 'naive-ui'
-import PicCode from '@/components/PicCode/PicCode.vue'
+import Verify from '../verifition/Verify.vue'
+// import Globat from '@Global.vue'
+import Global from '../../Global.vue'
 export default {
-  components: { PicCode },
+  components: { Verify },
   setup() {
     const loginV = ref({ user: '', passworld: '', Code: '' })
     const loginRef = ref()
     const message = useMessage()
-    const Code = ref(1)
     const login = () => {
       loginRef.value.validate(async (errors: any) => {
         if (!errors) {
-          axios
-            .post('api/login.php', {
-              user: loginV.value.user,
-              passworld: loginV.value.passworld,
-            })
-            .then((response) => {
-              const info = response.data.info
-              if (response.data.cod == '103') {
-                Globat.User.value = loginV.value.user
-                Globat.sex.value = response.data.sex
-                Globat.loged.value = false
-                localStorage.setItem('user', Globat.User.value)
-                localStorage.setItem('sex', Globat.sex.value)
-                localStorage.setItem('kay', response.data.kay)
-                localStorage.setItem('loged', 'false')
-                message.success(info)
-                location.href = './#/'
-              } else {
-                message.error(info)
-              }
-            })
-            .catch(() => {
-              message.error('访问API服务器失败')
-            })
+          verify.value.show()
         }
       })
     }
     const Retrieve = () => {
       location.href = './#/Retrieve'
     }
+    // 验证码
+    const verify = ref()
+    const success = (params) => {
+      console.log(params)
+      axios
+        .post('http://127.0.0.1:8888/users/Login', {
+          user: loginV.value.user,
+          password: loginV.value.passworld,
+          cod: params,
+        })
+        .then((response) => {
+          const info = response.data
+          if (!info.flag) {
+            message.error(info.msg)
+          } else {
+            console.log(info.date)
+            localStorage.setItem('Token', info.date)
+            Global.IsLog.value = true
+            message.success(info.msg)
+            location.href = './#/'
+          }
+        })
+        .catch((ecc) => {
+          console.log(ecc)
+        })
+    }
 
     return {
+      verify,
+      success,
+      // 验证码
       loginV,
       loginRef,
       login,
       useMessage,
-      Code,
       Retrieve,
       rules: {
         user: {
@@ -111,18 +114,6 @@ export default {
           validator: (rule: FormItemRule, value: any) => {
             if (value == '') {
               return new Error('请输入密码')
-            }
-          },
-        },
-        Code: {
-          required: true,
-          trigger: ['input', 'blur'],
-          validator: (rule: FormItemRule, value: any) => {
-            if (value == '') {
-              return new Error('请输入验证码')
-            }
-            if (value != Code.value) {
-              return new Error('验证码不正确')
             }
           },
         },

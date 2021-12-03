@@ -43,23 +43,22 @@ export default {
       Scard, AcceptCard,
       SeeCard: () => {
         if (AcceptCard.value != 0) {
-
-          axios.post("api/SeeCard.php", {
-            user: localStorage.getItem("user"),
-            kay: localStorage.getItem("kay")
-          }).then(response => {
-            const cod = response.data.cod;
-            const info = response.data.info;
-            if (cod == "103") {
-              Scard.value = response.data.card;
+          axios({
+            url: "http://127.0.0.1:8888/papers/seepaper",
+            method: "post",
+            headers: {
+              satoken: localStorage.getItem("Token"),
+            }
+          }).then((response) => {
+            const info = response.data
+            if (info.flag) {
+              Scard.value = info.date;
               AcceptCard.value--
             } else {
-              message.error(info);
+              message.error(info.msg)
             }
-
-          }).catch(e => {
-            console.log(e);
           })
+
         }
 
       }

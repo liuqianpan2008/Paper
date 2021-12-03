@@ -10,34 +10,34 @@
 
 <script>
 
+import axios from 'axios'
 import { defineComponent, watch, ref } from 'vue'
 import Globat from '../Global.vue'
+
 export default defineComponent({
   setup () {
-    const user = ref(Globat.User.value);
-    const sex = ref(Globat.sex.value);
-    watch(() => Globat.User.value, (nv, nsex) => {
-      user.value = nv;
-    })
-    watch(() => Globat.sex.value, (nv, ov) => {
-      sex.value = nv;
-    })
     const cancellation = () => {
-      localStorage.removeItem('user')
-      localStorage.removeItem('sex')
-      localStorage.removeItem('loged')
-      localStorage.removeItem('kay');
-      Globat.loged.value = true;
-      Globat.User.value = "";
-      Globat.sex.value = "";
-      location.href = "#/";
+      console.log("注销按钮点击了");
+
+      axios({
+        url: 'http://127.0.0.1:8888/users/logout',
+        headers: {
+          satoken: localStorage.getItem('Token'),
+        },
+      }).then((e) => {
+        localStorage.removeItem("Token")
+        Globat.IsLog.value = false;
+      })
     }
+
     const UserSetUp = () => {
       location.href = "./#/UserSetUp/personal";
     }
+
     return {
-      user, sex, cancellation, UserSetUp
+      cancellation, UserSetUp
     }
+
   },
 })
 </script>

@@ -19,7 +19,6 @@ export default defineComponent({
                 location.href="#/PaperCut/CollectCards";
             },
             Throw:()=>{
-
                 location.href="#/sendpaper/PaperCard";
             }
         }

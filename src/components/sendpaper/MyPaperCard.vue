@@ -32,18 +32,24 @@ export default {
     const handleClose = (cardid, recipient) => {
       // console.log(id);
       if (recipient == 0) {
-        axios.post("api/DeleteCard.php", {
-          id: cardid,
+        axios({
+          url: "http://127.0.0.1:8888/papers/deleteseedpaper",
+          method: "post",
+          headers: {
+            satoken: localStorage.getItem("Token"),
+          },
+          data: {
+            id: cardid
+          },
         }).then((response) => {
-          if (response.data.cod == "100") {
-            message.success(response.data.info);
-            location.reload();
+          const info = response.data
+          if (info.date) {
+            message.success(info.msg)
+
           } else {
-            message.error(response.data.info);
+            message.error(info.msg)
           }
-
         })
-
       } else {
         message.error("这张纸片已经被看到了，不能删除");
       }
@@ -58,21 +64,20 @@ export default {
     return {
       card, pagenumber, handleClose,
       page: (page) => {
-        axios.post("api/MyPaperCard.php", {
-          user: GlobalVue.User.value,
-          kay: localStorage.getItem('kay'),
-          page: page
+        axios({
+          url: "http://127.0.0.1:8888/papers/seedlistpaper",
+          method: "post",
+          headers: {
+            satoken: localStorage.getItem("Token"),
+          },
+          data: {
+            current: page,
+            Size: 4,
+            seed: "0"
+          },
         }).then((response) => {
-          const cod = response.data.cod;
-          const info = response.data.info;
-          console.log(response.data);
-          if (cod == "103") {
-            card.value = response.data.card;
-          } else {
-            message.error(info);
-          }
-        }).catch((response) => {
-          console.log("API获取失败");
+          const info = response.data
+          card.value = info.date.records
         })
 
       }

@@ -36,15 +36,6 @@
                  placeholder="请输入"
                  v-model:value="registerV.passworld1" />
       </n-form-item>
-      <n-form-item label="性别"
-                   path="sex">
-        <n-radio-group v-model:value="registerV.sex"
-                       name="nan_nv">
-          <n-radio value="男"
-                   :checked="1===1">男</n-radio>
-          <n-radio value="女">女</n-radio>
-        </n-radio-group>
-      </n-form-item>
       <n-form-item label="邮箱"
                    path="mail">
         <n-auto-complete v-model:value="registerV.mail"
@@ -59,14 +50,7 @@
         <n-input placeholder="请输入邮箱验证码"
                  v-model:value="registerV.mailCode" />
       </n-form-item>
-      <n-form-item label="验证码"
-                   path="Code">
-        <n-input placeholder="输入验证码"
-                 v-model:value="registerV.Code" />
-      </n-form-item>
-      <PicCode :width="200"
-               :height="50"
-               v-model:Code="Code" />
+
       <n-space justify="end">
         <n-form-item>
           <n-button @click="registerBtn"
@@ -76,6 +60,12 @@
     </n-form>
   </n-card>
 
+  <Verify @success="success"
+          mode="pop"
+          captchaType="clickWord"
+          :imgSize="{width:'400px',height:'200px'}"
+          ref="verify">
+  </Verify>
 </template>
 
 <script lang="ts">
@@ -83,16 +73,61 @@ import { FormItemRule } from 'naive-ui'
 import { defineComponent, ref, computed } from 'vue'
 import { useMessage } from 'naive-ui'
 import axios from 'axios'
-import PicCode from '@/components/PicCode/PicCode.vue'
+import Verify from '../verifition/Verify.vue'
 export default defineComponent({
-  components: { PicCode },
+  components: { Verify },
   setup() {
+    const verify = ref()
+    const success = (params) => {
+      if (iscod.value) {
+        loading.value = true
+        axios
+          .post('http://127.0.0.1:8888/mails/SeedCod', {
+            mail: registerV.value.mail,
+            cod: params.captchaVerification,
+          })
+          .then((response) => {
+            loading.value = false
+            const info = response.data
+            if (info.flag) {
+              Mcod.value = info.date
+              console.log(Mcod.value)
+
+              message.success(info.msg)
+            } else {
+              message.error(info.msg)
+            }
+          })
+          .catch(() => {
+            loading.value = false
+          })
+      } else {
+        axios
+          .post('http://127.0.0.1:8888/users/register', {
+            user: registerV.value.user,
+            password: registerV.value.passworld,
+            mail: registerV.value.mail,
+            cod: params,
+          })
+          .then((response) => {
+            loading.value = false
+            const info = response.data
+            if (info.flag) {
+              Mcod.value = info.date
+              message.success(info.msg)
+            } else {
+              message.error(info.msg)
+            }
+          })
+      }
+    }
+    const iscod = ref(true)
+    //验证码
+    const Mcod = ref('')
     const registerV = ref({
       user: '',
       passworld: '',
       passworld1: '',
-      sex: '',
-      Code: '',
       mail: '',
       mailCode: '',
     })
@@ -113,57 +148,24 @@ export default defineComponent({
     const passwordblur = () => {
       showPopover.value = false
     }
+
     const loading = ref(false)
 
     const registerBtn = () => {
       registerRef.value.validate(async (errors: any) => {
         if (!errors) {
-          axios
-            .post('api/Register.php', {
-              user: registerV.value.user,
-              passworld: registerV.value.passworld,
-              sex: registerV.value.sex,
-              mail: registerV.value.mail,
-            })
-            .then((response) => {
-              const info = response.data.info
-              console.log(response.data)
-
-              if (response.data.cod == '100') {
-                message.error(info)
-              }
-              if (response.data.cod == '101') {
-                message.error(info)
-              }
-              if (response.data.cod == '102') {
-                message.success(info)
-                location.href = '#/login'
-              }
-            })
-            .catch(() => {
-              message.error('访问API服务器失败')
-            })
+          iscod.value = false
+          verify.value.show()
         }
       })
     }
     const SeedmailCode = () => {
-      loading.value = true
-      axios
-        .post('api/registerMail.php', {
-          mail: registerV.value.mail,
-        })
-        .then((response) => {
-          const info = response.data.info
-          message.success(info)
-          mailCode.value = response.data.mailCode
-          loading.value = false
-        })
-        .catch(() => {
-          message.error('访问API服务器失败')
-          loading.value = false
-        })
+      iscod.value = true
+      verify.value.show()
     }
     return {
+      verify,
+      success,
       registerV,
       registerBtn,
       SeedmailCode,
@@ -226,23 +228,6 @@ export default defineComponent({
             }
           },
         },
-        sex: {
-          required: true,
-          trigger: 'change',
-          message: '请选择性别',
-        },
-        Code: {
-          required: true,
-          trigger: ['input', 'blur'],
-          validator: (rule: FormItemRule, value: any) => {
-            if (value == '') {
-              return new Error('请输入验证码')
-            }
-            if (value != Code.value) {
-              return new Error('验证码不正确')
-            }
-          },
-        },
         mail: {
           required: true,
           trigger: ['input', 'blur'],
@@ -259,7 +244,7 @@ export default defineComponent({
             if (value == '') {
               return new Error('请输入邮箱验证码')
             }
-            if (mailCode.value != value) {
+            if (Mcod.value != value) {
               return new Error('邮箱验证码不正确')
             }
           },

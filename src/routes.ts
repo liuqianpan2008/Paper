@@ -26,7 +26,7 @@ const router = createRouter({
         isAuth: true,
       },
       beforeEnter(to, from, next) {
-        if (Global.User.value == "") {
+        if (!Global.IsLog.value) {
           next();
         } else {
           alert("你已登录!");
@@ -37,7 +37,7 @@ const router = createRouter({
       path: "/Retrieve",
       component: Retrieve,
       beforeEnter(to, from, next) {
-        if (Global.User.value == "") {
+        if (!Global.IsLog.value) {
           next();
         } else {
           alert("你已登录!");
@@ -52,7 +52,7 @@ const router = createRouter({
       path: "/register",
       component: UserRegister,
       beforeEnter(to, from, next) {
-        if (Global.User.value == "") {
+        if (!Global.IsLog.value) {
           next();
         } else {
           alert("你已登录！");
@@ -67,24 +67,20 @@ const router = createRouter({
           path: "PaperCard",
           component: PaperCard,
           beforeEnter(to, form, next) {
-            if (Global.User.value != "") {
-              axios
-                .post("api/UseFrequency.php", {
-                  user: Global.User.value,
-                  kay: localStorage.getItem("kay"),
-                })
-                .then((response) => {
-                  const cod = response.data.cod;
-                  const info = response.data.info;
-                  if (cod == "103") {
-                    PaperCard.sendInfo.value = response.data.send;
-                  } else {
-                    alert(info);
-                  }
-                })
-                .catch((response) => {
-                  alert("API获取失败");
-                });
+            if (Global.IsLog.value) {
+              axios({
+                url: "http://127.0.0.1:8888/papers/getpaper",
+                method: "post",
+                headers: {
+                  satoken: localStorage.getItem("Token"),
+                },
+                data: {
+                  Isaccept: false,
+                },
+              }).then((e) => {
+                const info = e.data;
+                PaperCard.sendInfo.value = info.date;
+              });
               next();
             } else {
               alert("该功能登录后使用，请去登录！");
@@ -95,25 +91,24 @@ const router = createRouter({
           path: "MyPaperCard",
           component: MyPaperCard,
           beforeEnter(to, form, next) {
-            if (Global.User.value != "") {
+            if (Global.IsLog.value) {
               //初始化获取数据
-              axios
-                .post("api/MyPaperCard.php", {
-                  user: Global.User.value,
-                  kay: localStorage.getItem("kay"),
-                  page: 1,
-                })
+              axios({
+                url: "http://127.0.0.1:8888/papers/seedlistpaper",
+                method: "post",
+                headers: {
+                  satoken: localStorage.getItem("Token"),
+                },
+                data: {
+                  current: "1",
+                  Size: "4",
+                  seed: "0",
+                },
+              })
                 .then((response) => {
-                  const cod = response.data.cod;
-                  const info = response.data.info;
-                  if (cod == "103") {
-                    Global.card.value = response.data.card;
-                    if (Global.Pagenumber.value == "") {
-                      Global.Pagenumber.value = response.data.number;
-                    }
-                  } else {
-                    alert(info);
-                  }
+                  const info = response.data;
+                  Global.Pagenumber.value = info.date.pages;
+                  Global.card.value = info.date.records;
                 })
                 .catch((response) => {
                   alert("API获取失败");
@@ -138,24 +133,20 @@ const router = createRouter({
           path: "CollectCards",
           component: CollectCards,
           beforeEnter(to, form, next) {
-            if (Global.User.value != "") {
-              axios
-                .post("api/UseFrequency.php", {
-                  user: Global.User.value,
-                  kay: localStorage.getItem("kay"),
-                })
-                .then((response) => {
-                  const cod = response.data.cod;
-                  const info = response.data.info;
-                  if (cod == "103") {
-                    CollectCards.AcceptCard.value = response.data.accept;
-                  } else {
-                    alert(info);
-                  }
-                })
-                .catch((response) => {
-                  alert("API获取失败");
-                });
+            if (Global.IsLog.value) {
+              axios({
+                url: "http://127.0.0.1:8888/papers/getpaper",
+                method: "post",
+                headers: {
+                  satoken: localStorage.getItem("Token"),
+                },
+                data: {
+                  Isaccept: true,
+                },
+              }).then((e) => {
+                const info = e.data;
+                CollectCards.AcceptCard.value = info.date;
+              });
               next();
             } else {
               alert("该功能登录后使用，请去登录！");
@@ -166,28 +157,26 @@ const router = createRouter({
           path: "MyseeCard",
           component: MyseeCard,
           beforeEnter(to, form, next) {
-            if (Global.User.value != "") {
-              axios
-                .post("api/MySeeCard.php", {
-                  user: Global.User.value,
-                  kay: localStorage.getItem("kay"),
-                  page: 1,
-                })
+            if (Global.IsLog.value) {
+              axios({
+                url: "http://127.0.0.1:8888/papers/seedlistpaper",
+                method: "post",
+                headers: {
+                  satoken: localStorage.getItem("Token"),
+                },
+                data: {
+                  current: "1",
+                  Size: "4",
+                  seed: "1",
+                },
+              })
                 .then((response) => {
-                  const cod = response.data.cod;
-                  const info = response.data.info;
-                  console.log(response.data);
-                  if (cod == "103") {
-                    Global.card.value = response.data.card;
-                    if (Global.Pagenumber.value == "") {
-                      Global.Pagenumber.value = response.data.number;
-                    }
-                  } else {
-                    alert(info);
-                  }
+                  const info = response.data;
+                  Global.Pagenumber.value = info.date.pages;
+                  Global.card.value = info.date.records;
                 })
                 .catch((response) => {
-                  console.log("API获取失败");
+                  alert("API获取失败");
                 });
               next();
             } else {
@@ -201,7 +190,7 @@ const router = createRouter({
       path: "/UserSetUp",
       component: UserSetUp,
       beforeEnter(to, from, next) {
-        if (Global.User.value != "") {
+        if (Global.IsLog.value) {
           next();
         } else {
           alert("你还没登录呢");
@@ -212,7 +201,17 @@ const router = createRouter({
           path: "personal",
           component: personal,
           beforeEnter(to, from, next) {
-            if (Global.User.value != "") {
+            if (Global.IsLog.value) {
+              axios({
+                url: "http://127.0.0.1:8888/users/List",
+                method: "post",
+                headers: {
+                  satoken: localStorage.getItem("Token"),
+                },
+              }).then((e) => {
+                Global.User.value = e.data.date;
+                console.log(Global.User.value);
+              });
               next();
             } else {
               alert("你还没登录呢");
@@ -223,7 +222,7 @@ const router = createRouter({
           path: "SetPassword",
           component: setpassworld,
           beforeEnter(to, from, next) {
-            if (Global.User.value != "") {
+            if (Global.IsLog.value) {
               next();
             } else {
               alert("你还没登录呢");

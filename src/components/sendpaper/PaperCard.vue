@@ -24,70 +24,74 @@
                  maxlength="50"
                  show-count />
       </n-form-item>
-      <n-form-item label="验证码"
-                   path="Code">
-        <n-input placeholder="输入验证码"
-                 v-model:value="paperCard.Code" />
-      </n-form-item>
-      <PicCode :width="200"
-               :height="50"
-               v-model:Code="Code" />
       <n-space justify="end">
         <n-button attr-type="button"
                   @click="send">发送卡片</n-button>
       </n-space>
     </n-form>
-
+    <Verify @success="success"
+            mode="pop"
+            captchaType="clickWord"
+            :imgSize="{width:'400px',height:'200px'}"
+            ref="verify">
+    </Verify>
   </n-card>
 </template>
 
 
 
 <script>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import axios from 'axios';
 import { useMessage } from 'naive-ui';
-import PicCode from "@/components/PicCode/PicCode.vue";
+import Verify from '../verifition/Verify.vue'
 const sendInfo = ref(0)
 export default {
   sendInfo,
-  components: { PicCode },
+  components: { Verify },
   setup () {
+    const success = (params) => {
+      axios({
+        url: "http://127.0.0.1:8888/users/List",
+        method: "post",
+        headers: {
+          satoken: localStorage.getItem("Token"),
+        },
+        data: {
+          title: paperCard.value.title,
+          content: paperCard.value.content
+        },
+      }).then((response) => {
+        const info = response.data
+        if (!info.flag) {
+          message.error(info.msg)
+        } else {
+          message.success(info.msg)
+          sendInfo--;
+        }
+      })
+
+    }
+    const verify = ref()
+    //验证码
     const paperCard = ref({
       title: "",
       content: "",
-      Code: ""
     })
-    const Code = ref(1);
     const paperCardRef = ref()
     const message = useMessage()
     const send = () => {
       paperCardRef.value.validate(async (errors) => {
         if (!errors) {
-          axios.post(("api/SendPaperCard.php"), {
-            user: localStorage.getItem("user"),
-            title: paperCard.value.title,
-            content: paperCard.value.content,
-            kay: localStorage.getItem("kay")
-          }).then((response) => {
-            const info = response.data.info;
-            if (response.data.cod == "102") {
-              message.success(info);
-              location.href = './#/sendpaper/MyPaperCard';
-
-            } else {
-              message.error(info);
-            }
-          }).catch(() => {
-            message.error("访问API服务器失败");
-          });
+          verify.value.show();
         }
       })
     }
 
 
     return {
-      paperCard, paperCardRef, send, Code, sendInfo,
+      paperCard, paperCardRef, send, sendInfo,
+      success, verify,
       rules: {
         title: {
           required: true,
@@ -98,19 +102,6 @@ export default {
           required: true,
           trigger: ['input', 'blur'],
           message: '请输入卡片内容'
-        },
-        Code: {
-          required: true,
-          trigger: ['input', 'blur'],
-          validator: (rule, value) => {
-            console.log(Code.value);
-            if (value == "") {
-              return new Error('请输入验证码')
-            }
-            if (value != Code.value) {
-              return new Error('验证码不正确')
-            }
-          }
         }
       },
     }
