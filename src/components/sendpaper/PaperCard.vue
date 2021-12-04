@@ -53,7 +53,7 @@ export default {
   setup () {
     const success = (params) => {
       axios({
-        url: config.baseURL+"/users/List",
+        url: config.baseURL + "/papers/seedpaper",
         method: "post",
         headers: {
           satoken: localStorage.getItem("Token"),

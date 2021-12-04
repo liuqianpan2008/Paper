@@ -92,8 +92,6 @@ export default defineComponent({
             const info = response.data
             if (info.flag) {
               Mcod.value = info.date
-              console.log(Mcod.value)
-              location.href = './#/login'
               message.success(info.msg)
             } else {
               message.error(info.msg)
@@ -116,6 +114,7 @@ export default defineComponent({
             if (info.flag) {
               Mcod.value = info.date
               message.success(info.msg)
+              location.href = './#/login'
             } else {
               message.error(info.msg)
             }

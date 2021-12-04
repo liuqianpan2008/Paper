@@ -50,7 +50,6 @@ const menuseed = [
   }
 ]
 export default defineComponent({
-  // components:{PaperCard},
   setup () {
     return {
       menuseed

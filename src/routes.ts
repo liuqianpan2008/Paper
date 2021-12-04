@@ -224,6 +224,16 @@ const router = createRouter({
           component: setpassworld,
           beforeEnter(to, from, next) {
             if (Global.IsLog.value) {
+              axios({
+                url: config.baseURL + "/users/List",
+                method: "post",
+                headers: {
+                  satoken: localStorage.getItem("Token"),
+                },
+              }).then((e) => {
+                Global.User.value = e.data.date;
+                console.log(Global.User.value);
+              });
               next();
             } else {
               alert("你还没登录呢");

@@ -77,6 +77,7 @@ export default {
           } else {
             console.log(info.date)
             localStorage.setItem('Token', info.date)
+            localStorage.setItem('user', loginV.value.user)
             Global.IsLog.value = true
             message.success(info.msg)
             location.href = './#/'
