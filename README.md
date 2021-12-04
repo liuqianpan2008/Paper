@@ -1,14 +1,26 @@
 
 # 纸片
-该项目灵感来源于网络流行发广场投放纸片相亲
-<a href="http://paper.fengyeqiulin.cn">项目演示地址</a>
+该项目灵感来源于网络流行发广场投放纸片相亲<br>
+<a href="http://jpaper.fengyeqiulin.cn/#/">java后端项目演示地址</a><br>
+<a href="https://wp.fengyeqiulin.cn/#s/7nIcxrxA">云盘项目下载地址</a><br>
+<a href="http://paper.fengyeqiulin.cn">php项目演示地址（<1.0.0）</a> <br>
+
 ## vue3+Naive UI
 ## 项目搭建
 1.下载最新<a href="https://github.com/liuqianpan2008/Paper/releases">构建</a><br>
 2.下载bd.sql并导入mysql数据库<br>
 3.将构建文件上传到服务器<br>
-4.打开并修改aip>config.php目录下连接数据库信息<br>
+4.输入 'java -jar springbook.jar' 运行后端<br>
 ### 项目介绍
+ 全新的验证码
+ 支持二次回传验证
+ ![image](https://user-images.githubusercontent.com/80571808/144703006-6a73947f-b10e-4591-890c-bf07eb1c6495.png)
+
+ 用户设置界面
+  进行相应的用户设计
+ ![image](https://user-images.githubusercontent.com/80571808/144703019-6e5bd49d-caf1-4f61-a433-5d11f8c7be6d.png)
+ ![image](https://user-images.githubusercontent.com/80571808/144703031-e643d3b6-55de-4c7c-b6f0-37ecb317b028.png)
+
  用户登录&注册
     进行登录和注册配置
     ![image](https://user-images.githubusercontent.com/80571808/143264137-de018231-9bdf-456b-ad14-b2814511b928.png)
