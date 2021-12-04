@@ -33,6 +33,7 @@
 import { ref, watch } from 'vue';
 import axios from 'axios';
 import { useMessage } from 'naive-ui';
+import config from "@/config/index"
 const AcceptCard = ref(0)
 export default {
   AcceptCard,
@@ -44,7 +45,7 @@ export default {
       SeeCard: () => {
         if (AcceptCard.value != 0) {
           axios({
-            url: "http://127.0.0.1:8888/papers/seepaper",
+            url: config.baseURL + "/papers/seepaper",
             method: "post",
             headers: {
               satoken: localStorage.getItem("Token"),

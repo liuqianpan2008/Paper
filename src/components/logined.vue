@@ -13,21 +13,23 @@
 import axios from 'axios'
 import { defineComponent, watch, ref } from 'vue'
 import Globat from '../Global.vue'
-
+import config from "@/config/index"
 export default defineComponent({
   setup () {
     const cancellation = () => {
       console.log("注销按钮点击了");
 
       axios({
-        url: 'http://127.0.0.1:8888/users/logout',
+        url: config.baseURL + '/users/logout',
         headers: {
           satoken: localStorage.getItem('Token'),
         },
       }).then((e) => {
         localStorage.removeItem("Token")
         Globat.IsLog.value = false;
+        location.href = './#'
       })
+
     }
 
     const UserSetUp = () => {

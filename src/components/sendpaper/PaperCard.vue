@@ -45,6 +45,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import { useMessage } from 'naive-ui';
 import Verify from '../verifition/Verify.vue'
+import config from "@/config/index"
 const sendInfo = ref(0)
 export default {
   sendInfo,
@@ -52,7 +53,7 @@ export default {
   setup () {
     const success = (params) => {
       axios({
-        url: "http://127.0.0.1:8888/users/List",
+        url: config.baseURL+"/users/List",
         method: "post",
         headers: {
           satoken: localStorage.getItem("Token"),

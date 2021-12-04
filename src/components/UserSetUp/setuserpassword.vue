@@ -1,5 +1,7 @@
 <template>
-  疯狂制作中（带制作）
+  <n-card title="修改邮箱">
+
+  </n-card>
 </template>
 
 <script>

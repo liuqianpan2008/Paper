@@ -22,6 +22,7 @@ import { watch, ref } from 'vue';
 import GlobalVue from '@/Global.vue';
 import axios from 'axios';
 import { useMessage } from 'naive-ui';
+import config from "@/config/index"
 export default {
   setup () {
     const message = useMessage()
@@ -37,7 +38,7 @@ export default {
       card, pagenumber,
       page: (page) => {
         axios({
-          url: "http://127.0.0.1:8888/papers/seedlistpaper",
+          url: config.baseURL+"/papers/seedlistpaper",
           method: "post",
           headers: {
             satoken: localStorage.getItem("Token"),

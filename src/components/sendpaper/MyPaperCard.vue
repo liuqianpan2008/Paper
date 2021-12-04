@@ -6,7 +6,9 @@
             :key="i"
             closable
             @close="handleClose(cards.id,cards.recipient)">
-      <template #header-extra> {{cards.time}}</template>
+      <template #header-extra>
+        {{cards.time}}
+      </template>
       {{cards.content}}
       <template #action> {{cards.recipient==0?"这张卡片还没被人看见":"这张卡片被"+cards.recipient+"看到了"}} </template>
     </n-card>
@@ -24,6 +26,7 @@ import { watch, ref } from 'vue';
 import GlobalVue from '@/Global.vue';
 import axios from 'axios';
 import { useMessage } from 'naive-ui';
+import config from "@/config/index"
 export default {
   setup () {
     const message = useMessage()
@@ -33,7 +36,7 @@ export default {
       // console.log(id);
       if (recipient == 0) {
         axios({
-          url: "http://127.0.0.1:8888/papers/deleteseedpaper",
+          url: config.baseURL + "/papers/deleteseedpaper",
           method: "post",
           headers: {
             satoken: localStorage.getItem("Token"),
@@ -65,7 +68,7 @@ export default {
       card, pagenumber, handleClose,
       page: (page) => {
         axios({
-          url: "http://127.0.0.1:8888/papers/seedlistpaper",
+          url: config.baseURL + "/papers/seedlistpaper",
           method: "post",
           headers: {
             satoken: localStorage.getItem("Token"),

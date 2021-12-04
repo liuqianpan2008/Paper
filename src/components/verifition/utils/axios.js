@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-// axios.defaults.baseURL = '/api';
+import config from "@/config/index"
+// axios.defaults.baseURL = 'http://127.0.0.1:8888';
 
 const service = axios.create({
   timeout: 40000,
@@ -8,7 +8,7 @@ const service = axios.create({
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/json; charset=UTF-8'
   },
-  baseURL:"/api"
+  baseURL:config.baseURL
 })
 
 service.interceptors.request.use(

@@ -15,6 +15,7 @@ import personal from "./components/UserSetUp/personal.vue";
 import setpassworld from "./components/UserSetUp/setuserpassword.vue";
 import Retrieve from "./components/login/Retrieve.vue";
 import axios from "axios";
+import config from "@/config/index";
 //配置路由
 const router = createRouter({
   history: createWebHashHistory(),
@@ -69,7 +70,7 @@ const router = createRouter({
           beforeEnter(to, form, next) {
             if (Global.IsLog.value) {
               axios({
-                url: "http://127.0.0.1:8888/papers/getpaper",
+                url: config.baseURL + "/papers/getpaper",
                 method: "post",
                 headers: {
                   satoken: localStorage.getItem("Token"),
@@ -94,7 +95,7 @@ const router = createRouter({
             if (Global.IsLog.value) {
               //初始化获取数据
               axios({
-                url: "http://127.0.0.1:8888/papers/seedlistpaper",
+                url: config.baseURL + "/papers/seedlistpaper",
                 method: "post",
                 headers: {
                   satoken: localStorage.getItem("Token"),
@@ -135,7 +136,7 @@ const router = createRouter({
           beforeEnter(to, form, next) {
             if (Global.IsLog.value) {
               axios({
-                url: "http://127.0.0.1:8888/papers/getpaper",
+                url: config.baseURL + "/papers/getpaper",
                 method: "post",
                 headers: {
                   satoken: localStorage.getItem("Token"),
@@ -159,7 +160,7 @@ const router = createRouter({
           beforeEnter(to, form, next) {
             if (Global.IsLog.value) {
               axios({
-                url: "http://127.0.0.1:8888/papers/seedlistpaper",
+                url: config.baseURL + "/papers/seedlistpaper",
                 method: "post",
                 headers: {
                   satoken: localStorage.getItem("Token"),
@@ -203,7 +204,7 @@ const router = createRouter({
           beforeEnter(to, from, next) {
             if (Global.IsLog.value) {
               axios({
-                url: "http://127.0.0.1:8888/users/List",
+                url: config.baseURL + "/users/List",
                 method: "post",
                 headers: {
                   satoken: localStorage.getItem("Token"),

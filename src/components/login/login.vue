@@ -43,6 +43,7 @@ import { FormItemRule, useMessage } from 'naive-ui'
 import Verify from '../verifition/Verify.vue'
 // import Globat from '@Global.vue'
 import Global from '../../Global.vue'
+import config from '@/config/index'
 export default {
   components: { Verify },
   setup() {
@@ -64,7 +65,7 @@ export default {
     const success = (params) => {
       console.log(params)
       axios
-        .post('http://127.0.0.1:8888/users/Login', {
+        .post(config.baseURL + '/users/Login', {
           user: loginV.value.user,
           password: loginV.value.passworld,
           cod: params,

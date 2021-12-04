@@ -74,6 +74,7 @@ import { defineComponent, ref, computed } from 'vue'
 import { useMessage } from 'naive-ui'
 import axios from 'axios'
 import Verify from '../verifition/Verify.vue'
+import config from '@/config/index'
 export default defineComponent({
   components: { Verify },
   setup() {
@@ -82,9 +83,9 @@ export default defineComponent({
       if (iscod.value) {
         loading.value = true
         axios
-          .post('http://127.0.0.1:8888/mails/SeedCod', {
+          .post(config.baseURL + '/mails/SeedCod', {
             mail: registerV.value.mail,
-            cod: params.captchaVerification,
+            cod: params,
           })
           .then((response) => {
             loading.value = false
@@ -92,7 +93,7 @@ export default defineComponent({
             if (info.flag) {
               Mcod.value = info.date
               console.log(Mcod.value)
-
+              location.href = './#/login'
               message.success(info.msg)
             } else {
               message.error(info.msg)
@@ -103,7 +104,7 @@ export default defineComponent({
           })
       } else {
         axios
-          .post('http://127.0.0.1:8888/users/register', {
+          .post(config.baseURL + '/users/register', {
             user: registerV.value.user,
             password: registerV.value.passworld,
             mail: registerV.value.mail,

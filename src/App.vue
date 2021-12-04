@@ -34,7 +34,7 @@ import axios from 'axios'
 import { defineComponent, ref } from 'vue'
 import Navigation from './components/header/header.vue'
 import Globat from './Global.vue'
-
+import config from '@/config/index'
 export default defineComponent({
   name: 'App',
   components: { Navigation },
@@ -50,7 +50,7 @@ export default defineComponent({
       })
 
     axios({
-      url: 'http://127.0.0.1:8888/users/isLogin',
+      url: config.baseURL + '/users/isLogin',
       headers: {
         satoken: localStorage.getItem('Token'),
       },
@@ -64,7 +64,7 @@ export default defineComponent({
     window.onbeforeunload = (e) => {
       //刷新时弹出提示
       axios({
-        url: 'http://127.0.0.1:8888/users/isLogin',
+        url: config.baseURL + '/users/isLogin',
         headers: {
           satoken: localStorage.getItem('Token'),
         },

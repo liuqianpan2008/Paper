@@ -68,6 +68,7 @@ import { defineComponent, ref } from 'vue'
 import { useMessage } from 'naive-ui'
 import axios from 'axios'
 import Verify from '../verifition/Verify.vue'
+import config from '@/config/index'
 
 export default defineComponent({
   components: { Verify },
@@ -127,9 +128,9 @@ export default defineComponent({
       if (iscod.value) {
         loading.value = true
         axios
-          .post('http://127.0.0.1:8888/mails/RetrieveMail', {
+          .post(config.baseURL + '/mails/RetrieveMail', {
             user: registerV.value.user,
-            cod: params.captchaVerification,
+            cod: params,
           })
           .then((response) => {
             loading.value = false
@@ -143,7 +144,7 @@ export default defineComponent({
           })
       } else {
         axios
-          .post('http://127.0.0.1:8888/users/Retrieve', {
+          .post(config.baseURL + '/users/Retrieve', {
             user: registerV.value.user,
             password: registerV.value.passworld,
             cod: params,
