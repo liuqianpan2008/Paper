@@ -14,6 +14,7 @@ import UserSetUp from "./components/UserSetUp/UserSetUp.vue";
 import personal from "./components/UserSetUp/personal.vue";
 import setpassworld from "./components/UserSetUp/setuserpassword.vue";
 import Retrieve from "./components/login/Retrieve.vue";
+import PublicPaper from "./components/Publicpaper/PublicPaper.vue";
 import axios from "axios";
 import config from "@/config/index";
 //配置路由
@@ -32,6 +33,34 @@ const router = createRouter({
         } else {
           alert("你已登录!");
         }
+      },
+    },
+    {
+      path: "/PublicPaper",
+      component: PublicPaper,
+      beforeEnter(to, form, next) {
+        //初始化获取数据
+        axios({
+          url: config.baseURL + "/papers/public_p",
+          method: "post",
+          headers: {
+            satoken: localStorage.getItem("Token"),
+          },
+          data: {
+            current: "1",
+            Size: "4",
+            seed: "0",
+          },
+        })
+          .then((response) => {
+            const info = response.data;
+            Global.Pagenumber.value = info.date.pages;
+            Global.card.value = info.date.records;
+          })
+          .catch((response) => {
+            alert("API获取失败");
+          });
+        next();
       },
     },
     {

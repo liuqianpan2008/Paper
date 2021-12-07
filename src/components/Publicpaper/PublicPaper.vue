@@ -46,7 +46,7 @@ export default {
           data: {
             current: page,
             Size: 4,
-            seed: "1"
+            seed: "2"
           },
         }).then((response) => {
           const info = response.data
@@ -61,6 +61,6 @@ export default {
 
 <style>
 #vertical {
-  min-height: 750px;
+  min-height: 930px;
 }
 </style>

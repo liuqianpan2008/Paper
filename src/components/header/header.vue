@@ -1,21 +1,22 @@
 <template>
-  <n-grid :cols="3"
+  <n-grid :cols="12"
           item-responsive
           responsive="screen">
-    <n-gi span="0 m:1 l:1">
+    <n-gi span="0 m:4 l:4">
       <div id="logo"
            class=".center">
         <n-avatar style=" border-left-style: 20px;"
                   round
-                  :size="70"
+                  :size="50"
                   src="http://paper.fengyeqiulin.cn/1.png" />
       </div>
     </n-gi>
-    <n-gi class="center">
+    <n-gi class="center"
+          span="6 m:4 l:4">
       <HM />
     </n-gi>
     <n-gi class="center Reft"
-          span="2 m:1 l:1">
+          span="6 m:4 l:4">
       <div v-show="!Islogin">
         <HLRG />
       </div>
@@ -34,7 +35,7 @@ import GlobalVue from '@/Global.vue';
 import { watch, ref } from 'vue';
 import HM from '../header/headMenu.vue';
 import HLRG from '../header/head_login_regist_githob.vue'
-import Logined from '../logined.vue'
+import Logined from './logined.vue'
 
 
 export default ({

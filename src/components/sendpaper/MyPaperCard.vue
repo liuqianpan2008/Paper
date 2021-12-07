@@ -92,6 +92,6 @@ export default {
 
 <style>
 #vertical {
-  min-height: 800px;
+  min-height: 750px;
 }
 </style>

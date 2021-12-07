@@ -1,4 +1,8 @@
 <template>
+  <n-alert title="谨慎"
+           type="warning">
+    请发送健康向上内容，否则会违规扣除次数且不会发送纸片
+  </n-alert>
   <n-space justify="center">
     <n-gradient-text :size="24"
                      type="info"> 今天还能发{{sendInfo}}次 </n-gradient-text>
@@ -24,6 +28,25 @@
                  maxlength="50"
                  show-count />
       </n-form-item>
+      <n-form-item label="是否公开">
+        <n-switch checked-value="1"
+                  unchecked-value="0"
+                  @update:value="handleUpdateValue">
+          <template #checked>公开</template>
+          <template #unchecked>不公开</template>
+        </n-switch>
+        <n-popover :overlap="overlap"
+                   placement="right-start"
+                   trigger="hover">
+          <template #trigger>
+            <n-icon size="20"
+                    color="#0e7a0d">
+              <HelpCircleOutline />
+            </n-icon>
+          </template>
+          <div>实验性功能：公开的纸片会在纸片墙上显示,并且不会在捡纸片捡到</div>
+        </n-popover>
+      </n-form-item>
       <n-space justify="end">
         <n-button attr-type="button"
                   @click="send">发送卡片</n-button>
@@ -44,14 +67,25 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { useMessage } from 'naive-ui';
+import { HelpCircleOutline } from '@vicons/ionicons5'
 import Verify from '../verifition/Verify.vue'
 import config from "@/config/index"
 const sendInfo = ref(0)
 export default {
   sendInfo,
-  components: { Verify },
+  components: { Verify, HelpCircleOutline },
   setup () {
+    const handleUpdateValue = (value) => {
+      public_p.value = value
+
+      if (value == "1") {
+        message.warning("这张纸条将公开，你知道这样做意味着什么")
+      }
+
+    }
+    const public_p = ref()
     const success = (params) => {
+      console.log(public_p.value);
       axios({
         url: config.baseURL + "/papers/seedpaper",
         method: "post",
@@ -60,7 +94,8 @@ export default {
         },
         data: {
           title: paperCard.value.title,
-          content: paperCard.value.content
+          content: paperCard.value.content,
+          publicP: public_p.value
         },
       }).then((response) => {
         const info = response.data
@@ -92,7 +127,7 @@ export default {
 
     return {
       paperCard, paperCardRef, send, sendInfo,
-      success, verify,
+      success, verify, handleUpdateValue,
       rules: {
         title: {
           required: true,
@@ -103,7 +138,8 @@ export default {
           required: true,
           trigger: ['input', 'blur'],
           message: '请输入卡片内容'
-        }
+        },
+
       },
     }
   }
