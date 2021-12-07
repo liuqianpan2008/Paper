@@ -54,10 +54,13 @@ const router = createRouter({
         })
           .then((response) => {
             const info = response.data;
-            Global.Pagenumber.value = info.date.pages;
+            // console.log(PublicPaper.pagenumber.value);
+            PublicPaper.pagenumber.value = info.date.pages;
             Global.card.value = info.date.records;
           })
           .catch((response) => {
+            console.log(response);
+
             alert("API获取失败");
           });
         next();
@@ -137,7 +140,7 @@ const router = createRouter({
               })
                 .then((response) => {
                   const info = response.data;
-                  Global.Pagenumber.value = info.date.pages;
+                  MyPaperCard.pagenumber.value = info.date.pages;
                   Global.card.value = info.date.records;
                 })
                 .catch((response) => {
@@ -202,7 +205,7 @@ const router = createRouter({
               })
                 .then((response) => {
                   const info = response.data;
-                  Global.Pagenumber.value = info.date.pages;
+                  MyseeCard.pagenumber.value = info.date.pages;
                   Global.card.value = info.date.records;
                 })
                 .catch((response) => {

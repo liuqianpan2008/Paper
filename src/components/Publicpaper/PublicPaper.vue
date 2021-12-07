@@ -21,18 +21,14 @@
 import { watch, ref } from 'vue';
 import GlobalVue from '@/Global.vue';
 import axios from 'axios';
-import { useMessage } from 'naive-ui';
 import config from "@/config/index"
+const pagenumber = ref(1)
 export default {
+  pagenumber,
   setup () {
-    const message = useMessage()
     const card = ref()
-    const pagenumber = ref(1)
     watch(() => GlobalVue.card.value, (n, o) => {
       card.value = n;
-    })
-    watch(() => GlobalVue.Pagenumber.value, (n, o) => {
-      pagenumber.value = n;
     })
     return {
       card, pagenumber,

@@ -27,11 +27,13 @@ import GlobalVue from '@/Global.vue';
 import axios from 'axios';
 import { useMessage, useDialog } from 'naive-ui';
 import config from "@/config/index"
+const pagenumber = ref(1)
 export default {
+  pagenumber,
   setup () {
     const message = useMessage()
     const card = ref()
-    const pagenumber = ref(1)
+
     const dialog = useDialog()
     const handleClose = (cardid, recipient) => {
       dialog.warning({
@@ -71,10 +73,13 @@ export default {
     }
     watch(() => GlobalVue.card.value, (n, o) => {
       card.value = n;
+
+
     })
-    watch(() => GlobalVue.Pagenumber.value, (n, o) => {
-      pagenumber.value = n;
-    })
+    // watch(() => GlobalVue.Pagenumber.value, (n, o) => {
+    //   console.log("总页面" + n);
+    //   pagenumber.value = n;
+    // })
     return {
       card, pagenumber, handleClose,
       page: (page) => {
