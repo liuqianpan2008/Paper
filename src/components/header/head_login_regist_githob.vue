@@ -1,10 +1,10 @@
 <template>
-  <div style="padding-right:30px ;">
+
     <n-space justify="end">
       <n-button @click="logo">
         <template #icon>
           <n-icon>
-            <LogIn />
+            <LogInSharp />
           </n-icon>
         </template>
         登录
@@ -18,15 +18,14 @@
         注册
       </n-button>
     </n-space>
-  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { LogIn, CafeOutline } from '@vicons/ionicons5'
+import { LogInSharp, CafeOutline } from '@vicons/ionicons5'
 
 export default defineComponent({
-  components: { LogIn, CafeOutline },
+  components: { LogInSharp, CafeOutline },
   setup() {
     return {
       logo() {

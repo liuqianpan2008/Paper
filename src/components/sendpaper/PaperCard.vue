@@ -95,6 +95,7 @@ export default {
         data: {
           title: paperCard.value.title,
           content: paperCard.value.content,
+          cod: params,
           publicP: public_p.value
         },
       }).then((response) => {

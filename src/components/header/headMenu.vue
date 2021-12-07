@@ -5,17 +5,11 @@
 </template>
 <script lang="ts">
 import { defineComponent, h, ref } from 'vue'
-// import {
-//   BookOutline as BookIcon,
-//   PersonOutline as PersonIcon,
-//   WineOutline as WineIcon,
-//   HomeOutline as HomeIcon
-// } from '@vicons/ionicons5'
+
 import {
   HomeOutline as HomeIcon,
   PaperPlane as Paperlcon,
 } from '@vicons/ionicons5'
-import { Blog as BlogIcon } from '@vicons/carbon'
 import { NIcon } from 'naive-ui'
 
 export default defineComponent({

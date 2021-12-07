@@ -3,27 +3,29 @@
                      :locale="zhCN"
                      :date-locale="dateZhCN">
     <n-message-provider>
-      <n-space vertical
-               size="large">
-        <n-layout>
-          <n-layout-header embedded>
-            <Navigation />
-          </n-layout-header>
-          <n-layout-content class="main">
-            <router-view></router-view>
-          </n-layout-content>
+      <n-dialog-provider>
+        <n-space vertical
+                 size="large">
+          <n-layout>
+            <n-layout-header embedded>
+              <Navigation />
+            </n-layout-header>
+            <n-layout-content class="main">
+              <router-view></router-view>
+            </n-layout-content>
 
-          <n-layout-footer embedded>
-            <n-tooltip trigger="hover">
-              <template #trigger>
-                <p style="text-align: center;">Paper0.1.0 · Made by <a href="https://github.com/liuqianpan2008">@枫叶秋林</a></p>
-              </template>
-              {{t}}
-            </n-tooltip>
+            <n-layout-footer embedded>
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <p style="text-align: center;">Paper0.1.1 · Made by <a href="https://github.com/liuqianpan2008">@枫叶秋林</a></p>
+                </template>
+                {{t}}
+              </n-tooltip>
 
-          </n-layout-footer>
-        </n-layout>
-      </n-space>
+            </n-layout-footer>
+          </n-layout>
+        </n-space>
+      </n-dialog-provider>
     </n-message-provider>
   </n-config-provider>
 </template>

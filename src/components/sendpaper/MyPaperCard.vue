@@ -7,10 +7,10 @@
             closable
             @close="handleClose(cards.id,cards.recipient)">
       <template #header-extra>
-        {{cards.time}}
+        <n-tag type="success"> {{cards.publicP==1?"公开":"私有"}} </n-tag>
       </template>
       {{cards.content}}
-      <template #action> {{cards.recipient==0?"这张卡片还没被人看见":"这张卡片被"+cards.recipient+"看到了"}} </template>
+      <template #action> {{cards.recipient==0?"这张卡片还没被人看见":"这张卡片被"+cards.recipient+"看到了"}}<n-space justify="end">{{cards.time}} </n-space></template>
     </n-card>
   </n-space>
   <n-layout-footer>
@@ -25,38 +25,49 @@
 import { watch, ref } from 'vue';
 import GlobalVue from '@/Global.vue';
 import axios from 'axios';
-import { useMessage } from 'naive-ui';
+import { useMessage, useDialog } from 'naive-ui';
 import config from "@/config/index"
 export default {
   setup () {
     const message = useMessage()
     const card = ref()
     const pagenumber = ref(1)
+    const dialog = useDialog()
     const handleClose = (cardid, recipient) => {
-      // console.log(id);
-      if (recipient == 0) {
-        axios({
-          url: config.baseURL + "/papers/deleteseedpaper",
-          method: "post",
-          headers: {
-            satoken: localStorage.getItem("Token"),
-          },
-          data: {
-            id: cardid
-          },
-        }).then((response) => {
-          const info = response.data
-          if (info.date) {
-            message.success(info.msg)
+      dialog.warning({
+        title: '确定',
+        content: '你确定删除这张卡片吗？',
+        positiveText: '你走吧',
+        negativeText: '留下他',
+        onPositiveClick: () => {
+          if (recipient == 0) {
+            axios({
+              url: config.baseURL + "/papers/deleteseedpaper",
+              method: "post",
+              headers: {
+                satoken: localStorage.getItem("Token"),
+              },
+              data: {
+                id: cardid
+              },
+            }).then((response) => {
+              const info = response.data
+              if (info.date) {
+                message.success(info.msg)
 
+              } else {
+                message.error(info.msg)
+              }
+            })
           } else {
-            message.error(info.msg)
+            message.error("这张纸片已经被看到了，不能删除");
           }
-        })
-      } else {
-        message.error("这张纸片已经被看到了，不能删除");
-      }
 
+        },
+        onNegativeClick: () => {
+
+        }
+      })
     }
     watch(() => GlobalVue.card.value, (n, o) => {
       card.value = n;
