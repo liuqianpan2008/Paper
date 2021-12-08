@@ -39,9 +39,13 @@
               <HelpCircleOutline />
             </n-icon>
           </template>
-          <div>次数会在每天四重置</div>
+          <div>次数只能在签到获取</div>
         </n-popover>
+        <n-button type="success"
+                  @click="Sign"
+                  :disabled="SignRef">签到</n-button>
       </n-form-item>
+
     </n-form>
   </n-card>
 </template>
@@ -50,10 +54,14 @@
 
 
 import Global from "@/Global.vue";
+import { useMessage } from 'naive-ui'
 import { ref, watch } from 'vue';
 import { HelpCircleOutline } from '@vicons/ionicons5'
-
+import axios from 'axios';
+import config from "@/config/index";
+const SignRef = ref();
 export default {
+  SignRef,
   components: {
     HelpCircleOutline
   },
@@ -63,14 +71,39 @@ export default {
       seed: "",
       accept: ""
     })
+    const message = useMessage()
     watch(() => Global.User.value, (n, o) => {
       userlist.value = n
       // console.log(userlist.value.user);
     })
+    const Sign = () => {
+
+      axios({
+        url: config.baseURL + "/users/Sign",
+        method: "post",
+        headers: {
+          satoken: localStorage.getItem("Token"),
+        },
+      }).then((e) => {
+        const info = e.data;
+        if (info.flag) {
+          message.success(info.msg)
+          SignRef.value = true;
+          userlist.value.accept += info.date[0]
+          userlist.value.seed += info.date[1]
+        } else {
+          message.error(info.msg)
+        }
+
+      });
+
+    }
     const loginRef = ref()
     return {
       userlist, loginRef,
-      jz: true
+      jz: true,
+      Sign,
+      SignRef
     }
   }
 }

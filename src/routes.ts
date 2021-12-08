@@ -245,6 +245,16 @@ const router = createRouter({
                 Global.User.value = e.data.date;
                 console.log(Global.User.value);
               });
+              axios({
+                url: config.baseURL + "/users/IsSign",
+                method: "post",
+                headers: {
+                  satoken: localStorage.getItem("Token"),
+                },
+              }).then((e) => {
+                const info = e.data;
+                personal.SignRef.value = !info.date;
+              });
               next();
             } else {
               alert("你还没登录呢");
