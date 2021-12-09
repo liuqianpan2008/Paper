@@ -3,6 +3,10 @@
            type="warning">
     请发送健康向上内容，否则会违规扣除次数且不会发送纸片
   </n-alert>
+  <n-alert title="支持"
+           type="success">
+    支持html格式，可以在下方观察到有卡片单选效果
+  </n-alert>
   <n-space justify="center">
     <n-gradient-text :size="24"
                      type="info"> 今天还能发{{sendInfo}}次 </n-gradient-text>
@@ -25,7 +29,7 @@
         <n-input type="textarea"
                  placeholder="请输入卡片内容"
                  v-model:value="paperCard.content"
-                 maxlength="50"
+                 maxlength="500"
                  show-count />
       </n-form-item>
       <n-form-item label="是否公开">
@@ -59,11 +63,18 @@
             ref="verify">
     </Verify>
   </n-card>
+  <n-card :title="paperCard.title==null?这是预览标题:paperCard.title">
+    <template #header-extra> {{new Date()}}</template>
+    <p v-html="paperCard.content==null?这是预览内容:paperCard.content"></p>
+    <template #action>这张卡片预览卡片 </template>
+  </n-card>
 </template>
 
 
 
 <script>
+//获取当前年月日星期几几点几分几秒并打印
+
 import { ref } from 'vue';
 import axios from 'axios';
 import { useMessage } from 'naive-ui';

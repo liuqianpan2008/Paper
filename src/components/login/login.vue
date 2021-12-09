@@ -44,6 +44,7 @@ import Verify from '../verifition/Verify.vue'
 // import Globat from '@Global.vue'
 import Global from '../../Global.vue'
 import config from '@/config/index'
+import WS from '@/WS'
 export default {
   components: { Verify },
   setup() {
@@ -80,7 +81,9 @@ export default {
             localStorage.setItem('user', loginV.value.user)
             Global.IsLog.value = true
             message.success(info.msg)
+            Global.Ws.value = new WS.ws(loginV.value.user)
             location.href = './#/'
+            location.reload()
           }
         })
         .catch((ecc) => {

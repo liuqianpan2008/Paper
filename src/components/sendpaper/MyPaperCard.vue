@@ -9,7 +9,7 @@
       <template #header-extra>
         <n-tag type="success"> {{cards.publicP==1?"公开":"私有"}} </n-tag>
       </template>
-      {{cards.content}}
+      <span v-html="cards.content"></span>
       <template #action> {{cards.recipient==0?"这张卡片还没被人看见":"这张卡片被"+cards.recipient+"看到了"}}<n-space justify="end">{{cards.time}} </n-space></template>
     </n-card>
   </n-space>

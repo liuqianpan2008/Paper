@@ -4,44 +4,49 @@
                      :date-locale="dateZhCN">
     <n-message-provider>
       <n-dialog-provider>
-        <n-space vertical
-                 size="large">
-          <n-layout>
-            <n-layout-header embedded>
-              <Navigation />
-            </n-layout-header>
-            <n-layout-content class="main">
-              <router-view></router-view>
-            </n-layout-content>
+        <n-notification-provider>
+          <n-space vertical
+                   size="large">
+            <n-layout>
+              <n-layout-header embedded>
+                <Navigation />
+              </n-layout-header>
+              <n-layout-content class="main">
+                <router-view></router-view>
+              </n-layout-content>
 
-            <n-layout-footer embedded>
-              <n-tooltip trigger="hover">
-                <template #trigger>
-                  <p style="text-align: center;">Paper0.1.1 · Made by <a href="https://github.com/liuqianpan2008">@枫叶秋林</a></p>
-                </template>
-                {{t}}
-              </n-tooltip>
+              <n-layout-footer embedded>
+                <n-tooltip trigger="hover">
+                  <template #trigger>
+                    <p style="text-align: center;">Paper0.1.1 · Made by <a href="https://github.com/liuqianpan2008">@枫叶秋林</a></p>
+                  </template>
+                  {{t}}
+                </n-tooltip>
 
-            </n-layout-footer>
-          </n-layout>
-        </n-space>
+              </n-layout-footer>
+            </n-layout>
+          </n-space>
+        </n-notification-provider>
       </n-dialog-provider>
     </n-message-provider>
   </n-config-provider>
 </template>
 
 <script lang="ts">
-import { WindowOverlay } from '@vicons/carbon'
 import axios from 'axios'
+import { useNotification } from 'naive-ui'
 import { defineComponent, ref } from 'vue'
 import Navigation from './components/header/header.vue'
 import Globat from './Global.vue'
 import config from '@/config/index'
+import WS from '@/WS'
 export default defineComponent({
   name: 'App',
   components: { Navigation },
+
   setup() {
     const t = ref('')
+    // const notification = useNotification()
     axios
       .get('https://v1.hitokoto.cn/')
       .then((e) => {
@@ -62,19 +67,12 @@ export default defineComponent({
       Globat.IsLog.value = info.date
       console.log(Globat.IsLog.value)
     })
-    // window.οnbefοreunlοad=function(){}
-    window.onbeforeunload = (e) => {
-      //刷新时弹出提示
-      axios({
-        url: config.baseURL + '/users/isLogin',
-        headers: {
-          satoken: localStorage.getItem('Token'),
-        },
-      }).then((e) => {
+    if (localStorage.getItem('user') != null) {
+      Globat.Ws.value = new WS.ws(localStorage.getItem('user'))
+      Globat.Ws.value.ws_connect((e: any) => {
         const info = e.data
-        //IsLog
-        Globat.IsLog.value = info.date
-        console.log(Globat.IsLog.value)
+        console.log(info)
+        // notification.info(info)
       })
     }
     return { t }

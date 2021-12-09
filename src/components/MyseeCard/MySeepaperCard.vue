@@ -5,7 +5,7 @@
             v-for="(cards,i) in card"
             :key="i">
       <template #header-extra> {{cards.time}}</template>
-      {{cards.content}}
+      <span v-html="cards.content"></span>
       <template #action>这张卡片是由 {{cards.seeduser}} 发送的 </template>
     </n-card>
   </n-space>

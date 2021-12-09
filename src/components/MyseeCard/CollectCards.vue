@@ -20,7 +20,9 @@
       <n-skeleton text
                   v-if="Scard.title==''"
                   width="60%" />
-      <template #action>{{Scard.seeduser}} </template>
+      <template #action>
+        <span v-html="Scard.seeduser"></span>
+      </template>
     </n-card>
     <n-space justify="center">
       <n-button type="info"

@@ -42,11 +42,11 @@ export default defineComponent({
       }).then((e) => {
         localStorage.removeItem("Token")
         Globat.IsLog.value = false;
+        Globat.Ws.value.ws_close()
         location.href = './#'
       })
 
     }
-
     const UserSetUp = () => {
       location.href = "./#/UserSetUp/personal";
     }
