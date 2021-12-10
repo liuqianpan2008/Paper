@@ -15,6 +15,10 @@ import personal from "./components/UserSetUp/personal.vue";
 import setpassworld from "./components/UserSetUp/setuserpassword.vue";
 import Retrieve from "./components/login/Retrieve.vue";
 import PublicPaper from "./components/Publicpaper/PublicPaper.vue";
+import Help from "./components/help/help.vue";
+import AboutUs from "./components/help/AboutUs.vue";
+import HelpSeedPaper from "./components/help/HelpSeedPaper.vue";
+import HelpSee from "./components/help/HelpSee.vue";
 import axios from "axios";
 import config from "@/config/index";
 //配置路由
@@ -281,6 +285,24 @@ const router = createRouter({
               alert("你还没登录呢");
             }
           },
+        },
+      ],
+    },
+    {
+      path: "/help",
+      component: Help,
+      children: [
+        {
+          path: "AboutUs",
+          component: AboutUs,
+        },
+        {
+          path: "HelpSeedPaper",
+          component: HelpSeedPaper,
+        },
+        {
+          path: "HelpSeePaper",
+          component: HelpSee,
         },
       ],
     },
