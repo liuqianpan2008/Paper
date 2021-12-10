@@ -41,10 +41,8 @@ import axios from 'axios'
 import { ref } from 'vue'
 import { FormItemRule, useMessage, useNotification } from 'naive-ui'
 import Verify from '../verifition/Verify.vue'
-// import Globat from '@Global.vue'
 import Global from '../../Global.vue'
 import config from '@/config/index'
-import WS from '@/WS'
 export default {
   components: { Verify },
   setup() {
@@ -84,22 +82,6 @@ export default {
             message.success(info.msg)
             location.href = './#/'
             location.reload()
-            //获取消息
-            axios({
-              url: config.baseURL + '/users/Getmessage',
-              method: 'post',
-              headers: {
-                satoken: localStorage.getItem('Token'),
-              },
-            }).then((response) => {
-              const info = response.data
-              info.forEach((name: string, msg: string) => {
-                notification.info({
-                  content: '卡片被看了',
-                  meta: name + '看了你的' + msg + '卡片',
-                })
-              })
-            })
           }
         })
         .catch((ecc) => {

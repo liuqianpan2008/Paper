@@ -13,6 +13,8 @@ import {
   PaperPlane as Paperlcon,
 } from '@vicons/ionicons5'
 import { NIcon } from 'naive-ui'
+import axios from 'axios'
+import config from '@/config/index'
 
 export default {
   setup() {
@@ -20,6 +22,7 @@ export default {
       return () => h(NIcon, null, { default: () => h(icon) })
     }
     const notification = useNotification()
+    //在线获取收纸片消息
     if (localStorage.getItem('user') != null) {
       Globat.Ws.value = new WS.ws(localStorage.getItem('user'))
       Globat.Ws.value.ws_connect((e: any) => {
@@ -31,6 +34,26 @@ export default {
         })
       })
     }
+    //离线获取收纸片消息
+    if (localStorage.getItem('user') != null) {
+      axios({
+        url: config.baseURL + '/users/Getmessage',
+        method: 'post',
+        headers: {
+          satoken: localStorage.getItem('Token'),
+        },
+      }).then((response) => {
+        const info = response.data.date
+        console.log('离线接受的卡片', info)
+        info.forEach(function (item: { name: string; msg: string }) {
+          notification.info({
+            content: '卡片被看了',
+            meta: item.name + '看了你的《' + item.msg + '》卡片',
+          })
+        })
+      })
+    }
+
     const menuOptions = [
       {
         label: () =>

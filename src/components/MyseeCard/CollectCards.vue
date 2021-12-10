@@ -65,7 +65,7 @@ export default {
                 "name": localStorage.getItem('user'),
                 "type": "SeeYourCard",
                 "date": Scard.value.seeduser,
-                "msg": Scard.value.content,
+                "msg": Scard.value.title,
               }))
 
             } else {
