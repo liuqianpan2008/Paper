@@ -44,13 +44,15 @@ export default {
         },
       }).then((response) => {
         const info = response.data.date
-        console.log('离线接受的卡片', info)
-        info.forEach(function (item: { name: string; msg: string }) {
-          notification.info({
-            content: '卡片被看了',
-            meta: item.name + '看了你的《' + item.msg + '》卡片',
+        if (info != null) {
+          console.log('离线接受的卡片', info)
+          info.forEach(function (item: { name: string; msg: string }) {
+            notification.info({
+              content: '卡片被看了',
+              meta: item.name + '看了你的《' + item.msg + '》卡片',
+            })
           })
-        })
+        }
       })
     }
 
