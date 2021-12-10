@@ -34,19 +34,18 @@
 
 <script lang="ts">
 import axios from 'axios'
-import { useNotification } from 'naive-ui'
+
 import { defineComponent, ref } from 'vue'
 import Navigation from './components/header/header.vue'
 import Globat from './Global.vue'
 import config from '@/config/index'
-import WS from '@/WS'
 export default defineComponent({
   name: 'App',
   components: { Navigation },
 
   setup() {
     const t = ref('')
-    // const notification = useNotification()
+
     axios
       .get('https://v1.hitokoto.cn/')
       .then((e) => {
@@ -67,14 +66,7 @@ export default defineComponent({
       Globat.IsLog.value = info.date
       console.log(Globat.IsLog.value)
     })
-    if (localStorage.getItem('user') != null) {
-      Globat.Ws.value = new WS.ws(localStorage.getItem('user'))
-      Globat.Ws.value.ws_connect((e: any) => {
-        const info = e.data
-        console.log(info)
-        // notification.info(info)
-      })
-    }
+
     return { t }
   },
 })

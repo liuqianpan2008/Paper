@@ -4,20 +4,33 @@
           :options="menuOptions" />
 </template>
 <script lang="ts">
-import { defineComponent, h, ref } from 'vue'
-
+import { h, ref } from 'vue'
+import { useNotification } from 'naive-ui'
+import Globat from '@/Global.vue'
+import WS from '@/WS'
 import {
   HomeOutline as HomeIcon,
   PaperPlane as Paperlcon,
 } from '@vicons/ionicons5'
 import { NIcon } from 'naive-ui'
 
-export default defineComponent({
+export default {
   setup() {
     function renderIcon(icon: any) {
       return () => h(NIcon, null, { default: () => h(icon) })
     }
-    ///
+    const notification = useNotification()
+    if (localStorage.getItem('user') != null) {
+      Globat.Ws.value = new WS.ws(localStorage.getItem('user'))
+      Globat.Ws.value.ws_connect((e: any) => {
+        const info = e.data
+        console.log(info)
+        notification.info({
+          content: '卡片被看了',
+          meta: info,
+        })
+      })
+    }
     const menuOptions = [
       {
         label: () =>
@@ -88,10 +101,11 @@ export default defineComponent({
         icon: renderIcon(Paperlcon),
       },
     ]
+
     return {
       activeKey: ref(null),
       menuOptions,
     }
   },
-})
+}
 </script>

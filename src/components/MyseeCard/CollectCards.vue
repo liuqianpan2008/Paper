@@ -16,12 +16,13 @@
                   v-if="Scard.title==''"
                   :repeat="6" />
       <template #header-extra> {{Scard.time}} </template>
-      {{Scard.content}}
+
+      <span v-html="Scard.content"></span>
       <n-skeleton text
                   v-if="Scard.title==''"
                   width="60%" />
       <template #action>
-        <span v-html="Scard.seeduser"></span>
+        {{Scard.seeduser}}
       </template>
     </n-card>
     <n-space justify="center">
@@ -36,12 +37,15 @@ import { ref, watch } from 'vue';
 import axios from 'axios';
 import { useMessage } from 'naive-ui';
 import config from "@/config/index"
+import Globat from '@/Global.vue'
+import WS from '@/WS'
 const AcceptCard = ref(0)
 export default {
   AcceptCard,
   setup () {
     const Scard = ref({ title: "" })
     const message = useMessage()
+
     return {
       Scard, AcceptCard,
       SeeCard: () => {
@@ -57,6 +61,13 @@ export default {
             if (info.flag) {
               Scard.value = info.date;
               AcceptCard.value--
+              Globat.Ws.value.getWs().send(JSON.stringify({
+                "name": localStorage.getItem('user'),
+                "type": "SeeYourCard",
+                "date": Scard.value.seeduser,
+                "msg": Scard.value.content,
+              }))
+
             } else {
               message.error(info.msg)
             }

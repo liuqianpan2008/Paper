@@ -39,7 +39,7 @@
 <script lang="ts">
 import axios from 'axios'
 import { ref } from 'vue'
-import { FormItemRule, useMessage } from 'naive-ui'
+import { FormItemRule, useMessage, useNotification } from 'naive-ui'
 import Verify from '../verifition/Verify.vue'
 // import Globat from '@Global.vue'
 import Global from '../../Global.vue'
@@ -51,6 +51,7 @@ export default {
     const loginV = ref({ user: '', passworld: '', Code: '' })
     const loginRef = ref()
     const message = useMessage()
+    const notification = useNotification()
     const login = () => {
       loginRef.value.validate(async (errors: any) => {
         if (!errors) {
@@ -81,9 +82,24 @@ export default {
             localStorage.setItem('user', loginV.value.user)
             Global.IsLog.value = true
             message.success(info.msg)
-            Global.Ws.value = new WS.ws(loginV.value.user)
             location.href = './#/'
             location.reload()
+            //获取消息
+            axios({
+              url: config.baseURL + '/users/Getmessage',
+              method: 'post',
+              headers: {
+                satoken: localStorage.getItem('Token'),
+              },
+            }).then((response) => {
+              const info = response.data
+              info.forEach((name: string, msg: string) => {
+                notification.info({
+                  content: '卡片被看了',
+                  meta: name + '看了你的' + msg + '卡片',
+                })
+              })
+            })
           }
         })
         .catch((ecc) => {
