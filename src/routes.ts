@@ -19,6 +19,7 @@ import Help from "./components/help/help.vue";
 import AboutUs from "./components/help/AboutUs.vue";
 import HelpSeedPaper from "./components/help/HelpSeedPaper.vue";
 import HelpSee from "./components/help/HelpSee.vue";
+import chat from "./components/chat.vue";
 import axios from "axios";
 import config from "@/config/index";
 //配置路由
@@ -305,6 +306,10 @@ const router = createRouter({
           component: HelpSee,
         },
       ],
+    },
+    {
+      path: "/chat",
+      component: chat,
     },
   ],
 });
