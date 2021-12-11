@@ -15,7 +15,16 @@
       <n-skeleton text
                   v-if="Scard.title==''"
                   :repeat="6" />
-      <template #header-extra> {{Scard.time}} </template>
+      <template #header-extra> {{Scard.time}}
+        <n-button text
+                  style="font-size: 24px;"
+                  type="warning"
+                  @click="report(Scard)">
+          <n-icon>
+            <ReportGmailerrorredOutlined />
+          </n-icon>
+        </n-button>
+      </template>
 
       <span v-html="Scard.content"></span>
       <n-skeleton text
@@ -33,21 +42,60 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import axios from 'axios';
-import { useMessage } from 'naive-ui';
+import { useMessage, useDialog } from 'naive-ui';
 import config from "@/config/index"
 import Globat from '@/Global.vue'
-import WS from '@/WS'
+import { ReportGmailerrorredOutlined } from "@vicons/material"
 const AcceptCard = ref(0)
 export default {
   AcceptCard,
+  components: { ReportGmailerrorredOutlined },
   setup () {
     const Scard = ref({ title: "" })
     const message = useMessage()
+    const dialog = useDialog()
+    const report = (cards) => {
+      if (cards.seeduser == null) {
+        message.error("你还没看卡片怎么举报")
 
+      } else {
+        dialog.warning({
+          title: '举报',
+          content: '你确定举报这条卡片吗？',
+          positiveText: '举报',
+          negativeText: '不举报了',
+          onPositiveClick: () => {
+
+            axios({
+              url: config.baseURL + "/mails/seedAdminMail",
+              method: "post",
+              data: {
+                title: "卡片信息举报",
+                content: cards.seeduser + "说：" + cards.content
+              },
+            }).then((response) => {
+              const info = response.data
+              if (info.flag) {
+                message.success(info.msg)
+
+              } else {
+                message.error(info.msg)
+              }
+            })
+          },
+          onNegativeClick: () => {
+
+          }
+        })
+      }
+
+
+
+    }
     return {
-      Scard, AcceptCard,
+      Scard, AcceptCard, report,
       SeeCard: () => {
         if (AcceptCard.value != 0) {
           axios({
@@ -73,12 +121,12 @@ export default {
             }
           })
 
-        }
 
+        }
       }
     }
-  }
 
+  }
 }
 </script>
 

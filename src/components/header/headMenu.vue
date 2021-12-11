@@ -15,6 +15,7 @@ import {
 import { NIcon } from 'naive-ui'
 import axios from 'axios'
 import config from '@/config/index'
+import chat from '@/components/chat.vue'
 
 export default {
   setup() {
@@ -34,9 +35,13 @@ export default {
             meta: info.msg,
           })
         }
+        //接受聊天室信息
         if (info.type == 'PublicCard') {
-          console.log(info)
           Globat.chat.value.push(info)
+        }
+        //接受聊天室在线人数
+        if (info.type == 'Online') {
+          Globat.Online.value = info
         }
       })
     }
