@@ -310,6 +310,14 @@ const router = createRouter({
     {
       path: "/chat",
       component: chat,
+
+      beforeEnter(to, from, next) {
+        if (Global.IsLog.value) {
+          next();
+        } else {
+          alert("你还没登录呢");
+        }
+      },
     },
   ],
 });

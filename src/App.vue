@@ -18,7 +18,7 @@
               <n-layout-footer embedded>
                 <n-tooltip trigger="hover">
                   <template #trigger>
-                    <p style="text-align: center;">Paper0.1.1 · Made by <a href="./#/Help/AboutUs">@枫叶秋林</a></p>
+                    <p style="text-align: center;">Paper0.1.2 · Made by <a href="./#/Help/AboutUs">@枫叶秋林</a></p>
                   </template>
                   {{t}}
                 </n-tooltip>

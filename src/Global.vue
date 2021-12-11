@@ -7,9 +7,10 @@ const SendCard = ref();
 const AcceptCard = ref()
 const IsLog = ref();
 const Ws = ref()
+const chat = ref([])
 
 export default {
-  User, card, SendCard, AcceptCard, IsLog, Ws
+  User, card, SendCard, AcceptCard, IsLog, Ws, chat
 }
 </script>
 

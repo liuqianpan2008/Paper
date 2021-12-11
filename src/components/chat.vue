@@ -8,16 +8,18 @@
             <Bullhorn />
           </n-icon>
         </template>
-        禁止色情暴力内容
+        纯在线聊天室不支持保存聊天数据，禁止色情暴力内容
       </n-alert>
     </n-layout-header>
     <n-layout-content content-style="min-height: 770px;;max-height: 770px;"
                       :native-scrollbar="false">
       <n-space vertical>
 
-        <n-card title="用户名">
-          <template #header-extra> 时间 </template>
-          聊天内容
+        <n-card v-for="(cards,i) in chat"
+                :key="i"
+                :title="cards.user">
+          <template #header-extra> {{cards.time}} </template>
+          {{cards.msg}}
         </n-card>
 
       </n-space>
@@ -28,7 +30,8 @@
                  type="textarea"
                  placeholder="请输入" />
         <n-space justify="end">
-          <n-button type="success">发送</n-button>
+          <n-button type="success"
+                    @click="SeedChat">发送</n-button>
         </n-space>
       </n-space>
     </n-layout-footer>
@@ -38,13 +41,23 @@
 
 <script>
 import { Bullhorn } from '@vicons/carbon'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import GlobalVue from '@/Global.vue';
 export default {
   components: { Bullhorn },
   setup () {
     const seedvalue = ref("");
-    const chats = ref("");
-    return { seedvalue, chats }
+    // const chat = ref([]);
+    const SeedChat = () => {
+      GlobalVue.Ws.value.getWs().send(JSON.stringify({
+        "name": localStorage.getItem('user'),
+        "type": "PublicCard",
+        "date": "",
+        "msg": seedvalue.value,
+      }))
+      seedvalue.value = ""
+    }
+    return { seedvalue, chat: GlobalVue.chat.value, SeedChat }
   }
 }
 </script>

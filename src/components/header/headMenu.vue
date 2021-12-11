@@ -26,12 +26,18 @@ export default {
     if (localStorage.getItem('user') != null) {
       Globat.Ws.value = new WS.ws(localStorage.getItem('user'))
       Globat.Ws.value.ws_connect((e: any) => {
-        const info = e.data
+        const info = JSON.parse(e.data)
         console.log(info)
-        notification.info({
-          content: '卡片被看了',
-          meta: info,
-        })
+        if (info.type == 'SeeYourCard') {
+          notification.info({
+            content: '卡片被看了',
+            meta: info.msg,
+          })
+        }
+        if (info.type == 'PublicCard') {
+          console.log(info)
+          Globat.chat.value.push(info)
+        }
       })
     }
     //离线获取收纸片消息
@@ -120,6 +126,26 @@ export default {
               },
             ],
             //PublicPaper
+          },
+          {
+            type: 'group',
+            label: '实验室',
+            key: 'Paper-feeding',
+            children: [
+              {
+                label: () =>
+                  h(
+                    'a',
+                    {
+                      href: './#/chat',
+                      target: '_Self',
+                      rel: 'noopenner noreferrer',
+                    },
+                    '聊天室'
+                  ),
+                key: 'Pick-char',
+              },
+            ],
           },
         ],
         key: 'Paper',

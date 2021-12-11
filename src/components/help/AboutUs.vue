@@ -7,7 +7,8 @@
     <n-card title="未来计划">
       <n-space vertical>
         <n-checkbox :checked="true">一个简单的说明界面</n-checkbox>
-        <n-checkbox checked="true">简易聊天室</n-checkbox>
+        <n-checkbox :checked="true">简易聊天室</n-checkbox>
+        <n-checkbox checked="true">好友功能</n-checkbox>
         <n-checkbox checked="true">安卓端(长远)</n-checkbox>
         <n-checkbox checked="true">pc端(长远)</n-checkbox>
       </n-space>
@@ -49,6 +50,15 @@
           </tr>
         </tbody>
       </n-table>
+    </n-card>
+    <n-card title="更新日志">
+      <n-timeline>
+        <n-timeline-item content="前面的记不清了，这里开始吧" />
+        <n-timeline-item type="success"
+                         title="v0.1.2"
+                         content="新增在线聊天室bata"
+                         time="2021年12月11日09:09:48" />
+      </n-timeline>
     </n-card>
   </n-space>
 </template>
