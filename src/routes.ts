@@ -79,6 +79,7 @@ const router = createRouter({
           next();
         } else {
           alert("你已登录!");
+          next("/");
         }
       },
     },
@@ -94,6 +95,7 @@ const router = createRouter({
           next();
         } else {
           alert("你已登录！");
+          next("/");
         }
       },
     },
@@ -122,6 +124,7 @@ const router = createRouter({
               next();
             } else {
               alert("该功能登录后使用，请去登录！");
+              next("/login");
             }
           },
         },
@@ -154,6 +157,7 @@ const router = createRouter({
               next();
             } else {
               alert("该功能登录后使用，请去登录！");
+              next("/login");
             }
           },
         },
@@ -188,6 +192,7 @@ const router = createRouter({
               next();
             } else {
               alert("该功能登录后使用，请去登录！");
+              next("/login");
             }
           },
         },
@@ -219,6 +224,7 @@ const router = createRouter({
               next();
             } else {
               alert("该功能登录后使用，请去登录！");
+              next("/login");
             }
           },
         },
@@ -232,6 +238,7 @@ const router = createRouter({
           next();
         } else {
           alert("你还没登录呢");
+          next("/login");
         }
       },
       children: [
@@ -263,6 +270,7 @@ const router = createRouter({
               next();
             } else {
               alert("你还没登录呢");
+              next("/login");
             }
           },
         },
@@ -284,6 +292,7 @@ const router = createRouter({
               next();
             } else {
               alert("你还没登录呢");
+              next("/login");
             }
           },
         },
@@ -316,6 +325,7 @@ const router = createRouter({
           next();
         } else {
           alert("你还没登录呢");
+          next("/login");
         }
       },
     },
