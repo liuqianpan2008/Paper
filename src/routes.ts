@@ -20,7 +20,9 @@ import AboutUs from "./components/help/AboutUs.vue";
 import HelpSeedPaper from "./components/help/HelpSeedPaper.vue";
 import HelpSee from "./components/help/HelpSee.vue";
 import chat from "./components/chat.vue";
+import addfriend from "./components/UserSetUp/Myfriend/addfriend.vue";
 import axios from "axios";
+
 import config from "@/config/index";
 //配置路由
 const router = createRouter({
@@ -289,6 +291,18 @@ const router = createRouter({
                 Global.User.value = e.data.date;
                 console.log(Global.User.value);
               });
+              next();
+            } else {
+              alert("你还没登录呢");
+              next("/login");
+            }
+          },
+        },
+        {
+          path: "AddFriend",
+          component: addfriend,
+          beforeEnter(to, from, next) {
+            if (Global.IsLog.value) {
               next();
             } else {
               alert("你还没登录呢");

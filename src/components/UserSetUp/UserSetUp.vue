@@ -22,6 +22,8 @@
 <script>
 import { h, defineComponent } from 'vue'
 import { NIcon } from 'naive-ui'
+//AddFriend UserFriends
+import { UserFriends } from '@vicons/fa'
 // import PaperCard from './PaperCard.vue'
 import { BookOutline as BookIcon, } from '@vicons/ionicons5'
 import { AccountCircleSharp } from '@vicons/material'
@@ -38,7 +40,27 @@ const menuseed = [
       '个人资料'),
     key: 'hear-the-wind-sing',
     icon: renderIcon(BookIcon)
-  }, {
+  },
+  {
+
+    label: '好友',
+    key: 'a-wild-Friend',
+    children: [
+      {
+        label: () => h("a", {
+          href: './#/UserSetUp/AddFriend',
+          target: '_Self',
+          rel: 'noopenner noreferrer'
+        },
+          '添加好友'),
+        key: 'a-wild-AddFriend',
+
+      }
+    ],
+    icon: renderIcon(UserFriends)
+
+  },
+  {
     label: () => h("a", {
       href: './#/UserSetUp/SetPassword',
       target: '_Self',
@@ -48,6 +70,7 @@ const menuseed = [
     key: 'a-wild-sheep-chase',
     icon: renderIcon(AccountCircleSharp)
   }
+
 ]
 export default defineComponent({
   setup () {

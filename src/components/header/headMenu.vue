@@ -5,7 +5,7 @@
 </template>
 <script lang="ts">
 import { h, ref } from 'vue'
-import { useNotification } from 'naive-ui'
+import { useNotification, useMessage, NButton, NAvatar } from 'naive-ui'
 import Globat from '@/Global.vue'
 import WS from '@/WS'
 import {
@@ -19,6 +19,7 @@ import chat from '@/components/chat.vue'
 
 export default {
   setup() {
+    const message = useMessage()
     function renderIcon(icon: any) {
       return () => h(NIcon, null, { default: () => h(icon) })
     }
@@ -33,6 +34,50 @@ export default {
           notification.info({
             content: '卡片被看了',
             meta: info.msg,
+          })
+        }
+        if (info.type == 'AddFriend') {
+          const n = notification.info({
+            content: '好友添加请求',
+            meta: info.msg + '(关闭表示拒绝)',
+            action: () =>
+              h(
+                NButton,
+                {
+                  text: true,
+                  type: 'primary',
+                  onClick: () => {
+                    n.destroy()
+                    axios({
+                      url: config.baseURL + '/users/AddFriend',
+                      method: 'post',
+                      headers: {
+                        satoken: localStorage.getItem('Token'),
+                      },
+                      data: {
+                        id: info.date,
+                      },
+                    })
+                      .then((response) => {
+                        const info = response.data
+                        if (info.date) {
+                          message.warning('加好友成功')
+                        } else {
+                          message.error(info.msg)
+                        }
+                      })
+                      .catch((response) => {
+                        message.error('API获取失败')
+                      })
+                  },
+                },
+                {
+                  default: () => '同意',
+                }
+              ),
+            onClose: () => {
+              message.warning('已拒绝请求')
+            },
           })
         }
         //接受聊天室信息
@@ -55,14 +100,81 @@ export default {
         },
       }).then((response) => {
         const info = response.data.date
+
         if (info != null) {
           console.log('离线接受的卡片', info)
-          info.forEach(function (item: { name: string; msg: string }) {
-            notification.info({
-              content: '卡片被看了',
-              meta: item.name + '看了你的《' + item.msg + '》卡片',
+          if (info.type == 'SeeYourCard') {
+            info.forEach(function (item: { name: string; msg: string }) {
+              notification.info({
+                content: '卡片被看了',
+                meta: item.name + '看了你的《' + item.msg + '》卡片',
+              })
             })
-          })
+          } else if (info.type == 'AddFriend') {
+            const n = notification.info({
+              content: '好友添加请求',
+              meta: info.msg + '(关闭表示拒绝)',
+              action: () =>
+                h(
+                  NButton,
+                  {
+                    text: true,
+                    type: 'primary',
+                    onClick: () => {
+                      n.destroy()
+                      axios({
+                        url: config.baseURL + '/users/AddFriend',
+                        method: 'post',
+                        headers: {
+                          satoken: localStorage.getItem('Token'),
+                        },
+                        data: {
+                          id: info.date,
+                        },
+                      })
+                        .then((response) => {
+                          const info = response.data
+                          if (info.date) {
+                            message.warning('加好友成功')
+                          } else {
+                            message.error(info.msg)
+                          }
+                        })
+                        .catch((response) => {
+                          message.error('API获取失败')
+                        })
+                    },
+                  },
+                  {
+                    default: () => '同意',
+                  }
+                ),
+              onClose: () => {
+                axios({
+                  url: config.baseURL + '/users/DelFriend',
+                  method: 'post',
+                  headers: {
+                    satoken: localStorage.getItem('Token'),
+                  },
+                  data: {
+                    id: info.date,
+                  },
+                })
+                  .then((response) => {
+                    const info = response.data
+                    if (info.date) {
+                      message.warning('加好友成功')
+                    } else {
+                      message.error(info.msg)
+                    }
+                  })
+                  .catch((response) => {
+                    message.error('API获取失败')
+                  })
+                message.warning('已拒绝请求')
+              },
+            })
+          }
         }
       })
     }

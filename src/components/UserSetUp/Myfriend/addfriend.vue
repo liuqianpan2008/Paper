@@ -9,7 +9,7 @@
         <n-space justify="end">
           <n-button type="success"
                     size="tiny"
-                    @click="add(id)">添加ta为好友</n-button>
+                    @click="add('admin')">添加ta为好友</n-button>
         </n-space>
       </template>
     </n-card>
@@ -20,26 +20,39 @@
 import axios from 'axios'
 import config from "@/config/index";
 import { useMessage } from 'naive-ui'
+import Global from "@/Global.vue";
 export default {
   setup () {
     const message = useMessage()
     const add = (id) => {
       axios({
-        url: config.baseURL + "/users/Sign",
+        url: config.baseURL + "/users/AddFriend",
         method: "post",
         headers: {
           satoken: localStorage.getItem("Token"),
         },
-      }).then((e) => {
-        const info = e.data;
-        if (info.date) {
-
-          message.success(info.msg)
-        } else {
-          message.error(info.msg)
-        }
-
+        data: {
+          id: id
+        },
       })
+        .then((response) => {
+          const info = response.data;
+          if (info.date) {
+            message.success("添加请求成功")
+            Global.Ws.value.getWs().send(JSON.stringify({
+              "name": localStorage.getItem('user'),
+              "type": "AddFriend",
+              "date": id,
+              "msg": "",
+            }))
+          } else {
+            message.error(info.msg)
+          }
+        })
+        .catch((response) => {
+          message.error("API获取失败");
+        });
+
 
     }
     return { add }
